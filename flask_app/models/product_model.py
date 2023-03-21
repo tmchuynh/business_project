@@ -23,3 +23,39 @@ class Product:
         for result in results:
             list_of_products.append(cls(result))
         return list_of_products
+    
+    @classmethod
+    def get_product_by_employee_id(cls, data):
+        query = "SELECT * FROM products WHERE employee_id = %(employee_id)s"
+        results = connectToMySQL(DATABASE).query_db(query, data)
+        list_of_products = []
+        for result in results:
+            list_of_products.append(cls(result))
+        return list_of_products
+    
+    @classmethod
+    def get_product_by_category(cls, data):
+        query = "SELECT * FROM products WHERE category = %(category)s"
+        results = connectToMySQL(DATABASE).query_db(query, data)
+        list_of_products = []
+        for result in results:
+            list_of_products.append(cls(result))
+        return list_of_products
+    
+    @classmethod
+    def create_product(cls, data):
+        query = "INSERT INTO products (name, price, discount, status, category, employee_id) VALUES (%(name)s, %(price)s, %(discount)s, %(status)s, %(category)s, %(employee_id)s)"
+        results = connectToMySQL(DATABASE).query_db(query, data)
+        return results
+    
+    @classmethod
+    def update_product(cls, data):
+        query = "UPDATE products SET name = %(name)s, price = %(price)s, discount = %(discount)s, status = %(status)s, category = %(category)s, employee_id = %(employee_id)s WHERE id = %(product_id)s"
+        results = connectToMySQL(DATABASE).query_db(query, data)
+        return results
+    
+    @classmethod
+    def delete_product(cls, data):
+        query = "DELETE FROM products WHERE id = %(product_id)s"
+        results = connectToMySQL(DATABASE).query_db(query, data)
+        return results
