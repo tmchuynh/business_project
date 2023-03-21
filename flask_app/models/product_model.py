@@ -10,8 +10,6 @@ class Product:
         self.discount = data['discount']
         self.status = data['status']
         self.category = data['category']
-        self.employee_id = data['employee_id']
-        self.employee_id = data['employee_id']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
         

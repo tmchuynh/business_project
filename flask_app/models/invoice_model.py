@@ -11,7 +11,7 @@ class Invoice:
         self.date_due = data['date_due']
         self.date_paid = data['date_paid']
         self.status = data['status']
-        self.client_id = data['client_id']
+        self.client_email = data['client_email']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
         
@@ -32,6 +32,17 @@ class Invoice:
             return Invoice(results[0])
         else:
             return None
+        
+    @classmethod
+    def get_client_invoices(cls, data):
+        query = "SELECT * FROM invoices LEFT JOIN invoices ON clients.client_id = invoices.client_id WHERE clients.client_id = %(client_id)s"
+        results = connectToMySQL(DATABASE).query_db(query, data)
+        if len(results) == 0:
+            return None
+        list_of_invoices = []
+        for result in results:
+            list_of_invoices.append(Invoice(result))
+        return list_of_invoices
         
     @classmethod
     def create_invoice(cls, data):
