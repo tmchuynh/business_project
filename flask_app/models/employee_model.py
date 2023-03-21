@@ -14,10 +14,10 @@ class Employee:
     @classmethod
     def get_all_employees(cls):
         query = "SELECT * FROM employees"
-        result = connectToMySQL(DATABASE).query_db(query)
+        results = connectToMySQL(DATABASE).query_db(query)
         list_of_employees = []
-        for row in result:
-            list_of_employees.append(Employee(row))
+        for result in results:
+            list_of_employees.append(cls(result))
         return list_of_employees
     
     @classmethod
