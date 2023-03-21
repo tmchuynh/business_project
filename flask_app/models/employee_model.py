@@ -23,8 +23,27 @@ class Employee:
     @classmethod
     def get_employee_by_id(cls, data):
         query = "SELECT * FROM employees WHERE id = %(employee_id)s"
-        result = connectToMySQL(DATABASE).query_db(query, data)
-        if len(result) == 0:
+        results = connectToMySQL(DATABASE).query_db(query, data)
+        if len(results) == 0:
             return None
-        return Employee(result[0])
+        return Employee(results[0])
+    
+    @classmethod
+    def create_employee(cls, data):
+        query = "INSERT INTO employees (first_name, last_name, email) VALUES (%(first_name)s, %(last_name)s, %(email)s)"
+        results = connectToMySQL(DATABASE).query_db(query, data)
+        return results
+    
+    @classmethod
+    def update_employee(cls, data):
+        query = "UPDATE employees SET first_name = %(first_name)s, last_name = %(last_name)s, email = %(email)s WHERE id = %(employee_id)s"
+        results = connectToMySQL(DATABASE).query_db(query, data)
+        return results
+    
+    @classmethod
+    def delete_employee(cls, data):
+        query = "DELETE FROM employees WHERE id = %(employee_id)s"
+        results = connectToMySQL(DATABASE).query_db(query, data)
+        return results
+    
     
