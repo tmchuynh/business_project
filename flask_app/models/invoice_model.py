@@ -70,3 +70,9 @@ class Invoice:
             return Invoice(results[0])
         else:
             return None
+        
+    @classmethod
+    def add_product_to_invoice(cls, data):
+        query = "INSERT INTO product_invoice (invoices_id, invoices_date_due, invoices_clients_email, product_id) VALUES (%(invoices_id)s, %(invoices_date_due)s, %(invoices_clients_email)s, %(product_id)s)"
+        results = connectToMySQL(DATABASE).query_db(query, data)
+        return results

@@ -45,4 +45,9 @@ class Employee:
         results = connectToMySQL(DATABASE).query_db(query, data)
         return results
     
+    @classmethod
+    def create_client_employee_relationship(cls, data):
+        query = "INSERT INTO client_relationship (client_email, employee_email) VALUES (%(client_email)s, %(employee_email)"
+        results = connectToMySQL(DATABASE).query_db(query, data)
+        return results
     

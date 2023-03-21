@@ -57,3 +57,9 @@ class Product:
         query = "DELETE FROM products WHERE id = %(product_id)s"
         results = connectToMySQL(DATABASE).query_db(query, data)
         return results
+    
+    @classmethod
+    def assign_to_employee(cls, data):
+        query = "INSERT INTO product_team (product_id, employee_email) VALUES (%(product_id)s, %(employee_email)s)"
+        results = connectToMySQL(DATABASE).query_db(query, data)
+        return results
