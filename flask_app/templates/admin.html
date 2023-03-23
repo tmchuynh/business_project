@@ -11,24 +11,25 @@
 </head>
 
 <body>
-    <div class="container">
-
-        <div class="container">
-            <form action="/admin/add_employee" method="POST" class="form-horizontal">
-                <label for="first_name">First Name</label>
-                <input type="text" name="first_name">
-                <label for="last_name">Last Name</label>
-                <input type="text" name="last_name">
-                <label for="email">Email</label>
-                <input type="text" name="email">
-                {% for message in get_flashed_messages(category_filter = ['registration']) %}
-                    <div class="alert alert-danger">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-                <button type="submit" class="btn btn-success">Submit</button>
-            </form>
+    <div class="container p-3">
+        <div class="d-flex">
+            <a href="/logout" class="btn btn-secondary">Dashboard</a>
         </div>
+
+        <form action="/admin/add_employee" method="POST" class="form-horizontal">
+            <label for="first_name">First Name</label>
+            <input type="text" name="first_name">
+            <label for="last_name">Last Name</label>
+            <input type="text" name="last_name">
+            <label for="email">Email</label>
+            <input type="text" name="email">
+            {% for message in get_flashed_messages(category_filter = ['registration']) %}
+                <div class="alert alert-danger">
+                    {{ message }}
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-success">Submit</button>
+        </form>
 
         <!--employee list dropdown-->
         <div class="dropdown">

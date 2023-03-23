@@ -6,9 +6,11 @@ import re
 
 class Employee:
     def __init__(self, data):
+        self.id = data['id']
         self.first_name = data['first_name']
         self.last_name = data['last_name']
         self.email = data['email']
+        self.password = data['password']
         self.new_employee = data['new_employee']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
@@ -43,6 +45,23 @@ class Employee:
         """
         query = "SELECT * FROM employee WHERE id = %(employee_id)s"
         results = connectToMySQL(DATABASE).query_db(query, data)
+        if not results:
+            return None
+        return Employee(results[0])
+    
+    @classmethod
+    def get_employee_by_email(cls, data):
+        """
+        It takes in a dictionary of data, and returns an Employee object if the employee exists, or None if
+        the employee does not exist
+        
+        :param cls: This is the class that the method is being called on. In this case, it's the Employee
+        class
+        :param data: a dictionary of the data we want to pass to the query
+        :return: A dictionary of the employee's information.
+        """
+        query = "SELECT * FROM employee WHERE email = %(email)s"
+        results = connectToMySQL(DATABASE).query_db(query, data)
         if len(results) == 0:
             return None
         return Employee(results[0])
@@ -58,7 +77,7 @@ class Employee:
         :param data: a dictionary of the data we want to insert into the database
         :return: The id of the employee that was just created.
         """
-        query = "INSERT INTO employee (first_name, last_name, email) VALUES (%(first_name)s, %(last_name)s, %(email)s)"
+        query = "INSERT INTO employee (first_name, last_name, email, password) VALUES (%(first_name)s, %(last_name)s, %(email)s, %(password)s)"
         results = connectToMySQL(DATABASE).query_db(query, data)
         return results
     
@@ -71,7 +90,7 @@ class Employee:
         :param data: a dictionary of the data we want to update in the database
         :return: The results of the query.
         """
-        query = "UPDATE employee SET first_name = %(first_name)s, last_name = %(last_name)s, email = %(email)s WHERE id = %(employee_id)s"
+        query = "UPDATE employee SET first_name = %(first_name)s, last_name = %(last_name)s, email = %(email)s, new_employee = 1, password = %(password)s WHERE id = %(employee_id)s"
         results = connectToMySQL(DATABASE).query_db(query, data)
         return results
     
@@ -98,7 +117,7 @@ class Employee:
         :param data: a dictionary of the data you want to insert into the database
         :return: The results of the query.
         """
-        query = "INSERT INTO client_relationship (client_email, employee_email) VALUES (%(client_email)s, %(employee_email)"
+        query = "INSERT INTO client_relationship (client_email, employee_email) VALUES (%(client_email)s, %(employee_email)s"
         results = connectToMySQL(DATABASE).query_db(query, data)
         return results
     
