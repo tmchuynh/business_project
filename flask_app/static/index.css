@@ -49,3 +49,10 @@ a:hover {
     text-decoration: none;
     border: none;
 }
+
+.btn-success:hover {
+    color: black;
+    background-color: rgb(33, 156, 37);
+    text-decoration: none;
+    border: none;
+}
