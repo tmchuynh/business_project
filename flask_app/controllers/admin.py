@@ -12,7 +12,7 @@ def admin():
 
 @app.route('/admin/add_employee', methods=['POST'])
 def add_employee():
-    if not Employee.validate_employee_form(request.form):
+    if not Employee.validate_employee_form_on_creation(request.form):
         return redirect('/admin')
     
     # when an employee is first created, the password is randomly generated
@@ -24,7 +24,8 @@ def add_employee():
         'first_name': request.form['first_name'],
         'last_name': request.form['last_name'],
         'email': request.form['email'],
-        'password': bcrypt.generate_password_hash(temp_password).decode('utf-8')
+        'password': bcrypt.generate_password_hash(temp_password).decode('utf-8'),
+        'temp_password': temp_password
     }
     
     Employee.create_employee(new_employee)

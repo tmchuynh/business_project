@@ -11,9 +11,11 @@ class Employee:
         self.last_name = data['last_name']
         self.email = data['email']
         self.password = data['password']
+        self.temp_password = data['temp_password']
         self.new_employee = data['new_employee']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
+        
         
     @classmethod
     def get_all_employees(cls):
@@ -32,6 +34,7 @@ class Employee:
             list_of_employees.append(cls(result))
         return list_of_employees
     
+    
     @classmethod
     def get_employee_by_id(cls, data):
         """
@@ -49,6 +52,7 @@ class Employee:
             return None
         return Employee(results[0])
     
+    
     @classmethod
     def get_employee_by_email(cls, data):
         """
@@ -62,9 +66,10 @@ class Employee:
         """
         query = "SELECT * FROM employee WHERE email = %(email)s"
         results = connectToMySQL(DATABASE).query_db(query, data)
-        if len(results) == 0:
+        if not results:
             return None
         return Employee(results[0])
+    
     
     @classmethod
     def create_employee(cls, data):
@@ -77,9 +82,10 @@ class Employee:
         :param data: a dictionary of the data we want to insert into the database
         :return: The id of the employee that was just created.
         """
-        query = "INSERT INTO employee (first_name, last_name, email, password) VALUES (%(first_name)s, %(last_name)s, %(email)s, %(password)s)"
+        query = "INSERT INTO employee (first_name, last_name, email, password, temp_password) VALUES (%(first_name)s, %(last_name)s, %(email)s, %(password)s, %(temp_password)s)"
         results = connectToMySQL(DATABASE).query_db(query, data)
         return results
+    
     
     @classmethod
     def update_employee(cls, data):
@@ -90,9 +96,10 @@ class Employee:
         :param data: a dictionary of the data we want to update in the database
         :return: The results of the query.
         """
-        query = "UPDATE employee SET first_name = %(first_name)s, last_name = %(last_name)s, email = %(email)s, new_employee = 1, password = %(password)s WHERE id = %(employee_id)s"
+        query = "UPDATE employee SET new_employee = b'1', password = %(password)s, temp_password = 'employee updated' WHERE id = %(employee_id)s"
         results = connectToMySQL(DATABASE).query_db(query, data)
         return results
+    
     
     @classmethod
     def delete_employee(cls, data):
@@ -108,6 +115,7 @@ class Employee:
         results = connectToMySQL(DATABASE).query_db(query, data)
         return results
     
+    
     @classmethod
     def create_client_employee_relationship(cls, data):
         """
@@ -120,6 +128,7 @@ class Employee:
         query = "INSERT INTO client_relationship (client_email, employee_email) VALUES (%(client_email)s, %(employee_email)s"
         results = connectToMySQL(DATABASE).query_db(query, data)
         return results
+    
     
     @classmethod
     def check_database(cls, data):
@@ -139,7 +148,7 @@ class Employee:
     
 
     @staticmethod
-    def validate_employee_form(data):
+    def validate_employee_form_on_creation(data):
         regex = re.compile('[@_!#$%^&*()<>?/\|}{~:]')
         
         is_valid = True
@@ -169,6 +178,39 @@ class Employee:
                 is_valid = False
         else:
             flash('Email contains special characters', "registration")
+            is_valid = False
+        
+        return is_valid
+    
+    
+    @staticmethod
+    def validate_employee_form_on_update(data):
+        regex = re.compile('[@_!#$%^&*()<>?/\|}{~:]')
+        
+        is_valid = True
+        
+        if (len(data['password']) < 8):
+            # password is too short
+            flash('Password is too short', "registration")
+            is_valid = False
+            
+        if (re.search('[0-9]', data['password']) == None):
+            # password does not contain digits
+            flash('Password does not contain digits', "registration")
+            is_valid = False
+            
+        if (re.search('[A-Z]', data['password']) == None):
+            # password does not contain uppercase letters
+            flash('Password does not contain a uppercase letters', "registration")
+            is_valid = False
+            
+        if (regex.search(data['password']) == None):
+            # password contains not special characters
+            flash('Password contains not a special characters', "registration")
+            is_valid = False
+        
+        if (data['password']!= data['password_confirmation']):
+            flash('Passwords do not match', "registration")
             is_valid = False
         
         return is_valid
