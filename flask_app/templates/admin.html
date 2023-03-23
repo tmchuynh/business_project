@@ -17,6 +17,11 @@
         </div>
 
         <form action="/admin/add_employee" method="POST" class="form-horizontal">
+            {% for message in get_flashed_messages(category_filter = ['employee_added']) %}
+            <div class="alert alert-danger">
+                {{ message }}
+            </div>
+        {% endfor %}
             <label for="first_name">First Name</label>
             <input type="text" name="first_name">
             <label for="last_name">Last Name</label>

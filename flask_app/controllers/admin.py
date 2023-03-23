@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, flash
 from flask_app import app
 from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
@@ -29,4 +29,5 @@ def add_employee():
     }
     
     Employee.create_employee(new_employee)
+    flash('Employee added successfully', 'employee_added')
     return redirect('/admin')

@@ -41,7 +41,7 @@ def employee_update(id):
     }
     
     # employee is done
-    current_employee = Employee.get_employee_by_id(this_employee['employee_id'])
+    current_employee = Employee.get_employee_by_id(id)
     session['first_name'] = current_employee.first_name
     session['last_name'] = current_employee.last_name
     session['employee_id'] = current_employee.id

@@ -48,6 +48,7 @@ class Employee:
         """
         query = "SELECT * FROM employee WHERE id = %(employee_id)s"
         results = connectToMySQL(DATABASE).query_db(query, data)
+        print(results)
         if not results:
             return None
         return Employee(results[0])
