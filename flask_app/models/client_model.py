@@ -8,6 +8,7 @@ import re
 
 class Client:
     def __init__(self, data):
+        self.id = data['id']
         self.first_name = data['first_name']
         self.last_name = data['last_name']
         self.email = data['email']
@@ -34,10 +35,24 @@ class Client:
             return None
         return cls(results[0])
     
+    @classmethod
+    def get_client_by_email(cls, data):
+        query = "SELECT * FROM clients WHERE email = %(email)s"
+        results = connectToMySQL(DATABASE).query_db(query, data)
+        if not results:
+            return None
+        return cls(results[0])
+    
+    @classmethod
+    def create_relationship_with_employee(cls, data):
+        query = "INSERT INTO client_employee_relationship (clients_id, clients_email, employee_id, employee_email) VALUES (%(client_id)s, %(client_email)s, %(employee_id)s, %(employee_email)s)"
+        results = connectToMySQL(DATABASE).query_db(query, data)
+        return results
+    
     
     @classmethod
     def get_client_by_employee(cls, data):
-        query = """SELECT * FROM clients
+        query = """SELECT clients.*, employee.first_name, employee.last_name, employee.email FROM clients
         LEFT JOIN client_employee_relationship ON client_employee_relationship.clients_id = clients.id
         LEFT JOIN employee ON client_employee_relationship.employee_id = employee.id
         WHERE employee.id = %(employee_id)s"""
