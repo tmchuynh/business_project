@@ -45,6 +45,10 @@ def add_employee():
 
 @app.route('/admin/add_product', methods=['POST'])
 def add_product():
+    """
+    We're creating a new product and adding it to the database
+    :return: a redirect to the admin page.
+    """
     if not Product.validate_product_form_on_creation(request.form):
         return redirect('/admin')
     

@@ -2,6 +2,8 @@ from flask_app.config.mysqlconnection import connectToMySQL
 from flask_app import DATABASE
 from flask import flash
 
+from flask_app.models import product_model
+
 class Product:
     def __init__(self, data):
         self.id = data['id']
@@ -12,6 +14,7 @@ class Product:
         self.category = data['category']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
+        self.products = None
         
     @classmethod
     def get_all_products(cls):
@@ -27,6 +30,14 @@ class Product:
         for result in results:
             list_of_products.append(cls(result))
         return list_of_products
+    
+    @classmethod
+    def get_product_by_id(cls, data):
+        query = "SELECT * FROM products WHERE id = %(product_id)s"
+        results = connectToMySQL(DATABASE).query_db(query, data)
+        if not results:
+            return None
+        return cls(results[0])
     
     @classmethod
     def get_product_by_employee_id(cls, data):
@@ -59,6 +70,10 @@ class Product:
         for result in results:
             list_of_products.append(cls(result))
         return list_of_products
+    
+    # @classmethod
+    # def get_product_by_client(cls, data):
+        
     
     @classmethod
     def create_product(cls, data):

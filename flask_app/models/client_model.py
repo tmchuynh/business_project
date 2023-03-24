@@ -129,7 +129,7 @@ class Client:
         :param data: a dictionary of the data we want to insert into the database
         :return: True or False
         """
-        query = "SELECT * FROM clients WHERE  email = %(email)s"
+        query = "SELECT * FROM clients WHERE email = %(email)s"
         results = connectToMySQL(DATABASE).query_db(query, data)
         if results:
             return True
@@ -180,3 +180,18 @@ class Client:
             is_valid = False
         
         return is_valid
+    
+    @staticmethod
+    def validate_client_login(data):
+        is_valid = True
+        this_user = {
+            'email': data['email']
+        }
+        if not Client.check_database(this_user):
+            is_valid = False
+            flash('Email is not in use, please use a different email', "check_client_login")
+        if len(data['first_name']) < 1:
+            flash('First name cannot be empty', "check_client_login")
+            is_valid = False
+        return is_valid
+            

@@ -4,6 +4,46 @@ from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
 from flask_app.models.client_model import Client
 from flask_app.models.employee_model import Employee
+from flask_app.models.product_model import Product
+
+@app.route('/clients')
+def display_product():
+    list_of_products = Product.get_all_products()
+    return render_template('display_all_products.html', list_of_products=list_of_products)
+
+
+@app.route('/clients/options')
+def show_client_options():
+    if 'client_email' not in session:
+        return render_template('create_client.html')
+    return render_template('cart.html')
+
+
+@app.route('/clients/login', methods=['POST'])
+def check_for_client_in_database():
+    if not Client.validate_client_login(request.form):
+        return redirect('/clients/options')
+    session['client_email'] = request.form['email']
+    return redirect('/clients')
+
+
+@app.route('/clients/register', methods=['GET', 'POST'])
+def register_client():
+    if 'client_email' not in session:
+        if not Client.validate_client(request.form):
+            return redirect('/clients/options')
+        new_client = {
+            'first_name': request.form['first_name'],
+            'last_name': request.form['last_name'],
+            'email': request.form['email']
+        }
+        Client.create_client(new_client)
+        flash('You have successfully registered!', 'client_success')
+        print(new_client['email'])
+        session['client_email'] = new_client['email']
+        print(session['client_email'])
+        return redirect('/clients')
+    return render_template('cart.html')
 
 @app.route('/employee/add_client', methods=['POST'])
 def add_client():
@@ -13,7 +53,7 @@ def add_client():
     :return: The redirect is returning the employee's home page.
     """
     if not Client.validate_client(request.form):
-        return redirect('/employee/home')
+        return redirect('/employee/get_clients')
     new_client = {
         'first_name': request.form['first_name'],
         'last_name': request.form['last_name'],
