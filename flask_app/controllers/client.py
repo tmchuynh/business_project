@@ -6,6 +6,11 @@ from flask_app.models.client_model import Client
 
 @app.route('/employee/add_client', methods=['POST'])
 def add_client():
+    """
+    The function creates a new client and then creates a relationship between the new client and the
+    employee who created the client
+    :return: The redirect is returning the employee's home page.
+    """
     if not Client.validate_client(request.form):
         return redirect('/employee/home')
     new_client = {
@@ -29,5 +34,10 @@ def add_client():
 
 @app.route('/employee/get_clients', methods=['GET'])
 def get_clients():
+    """
+    It gets all the clients from the database and renders the employee_home.html template with the list
+    of clients
+    :return: A list of all clients
+    """
     list_of_clients = Client.get_all_clients()
     return render_template('employee_home.html', list_of_clients=list_of_clients)

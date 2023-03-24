@@ -18,6 +18,8 @@
 
                 <form action="/employee/add_client" method="post" class="form-horizontal">
 
+                    <!-- This is a for loop that is iterating through the list of messages that are in the category
+                    'client_added'. -->
                     {% for message in get_flashed_messages(category_filter = ['client_added']) %}
                         <div class="alert alert-danger">
                             {{ message }}
@@ -33,6 +35,8 @@
                     <label for="email_confirmation">Re-type Email</label>
                     <input type="text" name="email_confirmation">
 
+                    <!-- This is a for loop that is iterating through the list of messages that are in the category
+                                        'new_client'. -->
                     {% for message in get_flashed_messages(category_filter = ['new_client']) %}
                     <div class="alert alert-danger">
                         {{ message }}
@@ -46,6 +50,8 @@
             <div class="container">
                 <h3>Current Clients</h3>
                 <ul>
+                <!-- This is a for loop that is iterating through the list of clients that are in the list_of_clients
+                variable. -->
                 {% for client in list_of_clients: %}
                     <li>{{client.first_name}} {{client.last_name}}</li>
                 {% endfor %}

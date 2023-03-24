@@ -22,6 +22,12 @@ def employee_login_form():
 
 @app.route('/employee/<int:id>')
 def employee_update_form(id):
+    """
+    This function is used to render the employee_update_password.html page.
+    
+    :param id: the id of the employee to be updated
+    :return: The employee_update_password.html page is being returned.
+    """
     this_employee = {
         'employee_id': id
     }
@@ -31,6 +37,11 @@ def employee_update_form(id):
 
 @app.route('/employee/update/<int:id>', methods=['POST'])
 def employee_update(id):
+    """
+    This function updates the employee's password
+    
+    :param id: the id of the employee to update
+    """
     if not Employee.validate_employee_form_on_update(request.form):
         return redirect(f'/employee/{id}')
     
@@ -40,8 +51,13 @@ def employee_update(id):
         'password': bcrypt.generate_password_hash(request.form['password']),
     }
     
+    this_id = {
+        'employee_id': id
+    }
+    
     # employee is done
-    current_employee = Employee.get_employee_by_id(id)
+    current_employee = Employee.get_employee_by_id(this_id)
+    print(current_employee)
     session['first_name'] = current_employee.first_name
     session['last_name'] = current_employee.last_name
     session['employee_id'] = current_employee.id
@@ -54,6 +70,11 @@ def employee_update(id):
 
 @app.route('/employee/login', methods=['POST'])
 def employee_login():
+    """
+    If the employee exists, and the password is correct, then the employee is logged in and redirected
+    to the appropriate page
+    :return: The employee's first name, last name, id, and email are being returned.
+    """
     get_email = {
         'email': request.form['email']
     }

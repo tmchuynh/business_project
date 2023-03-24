@@ -7,11 +7,19 @@ import random, string
 
 @app.route('/admin')
 def admin():
+    """
+    It gets all the employees from the database and passes them to the admin.html template
+    :return: A list of all employees
+    """
     list_of_employees = Employee.get_all_employees()
     return render_template('admin.html', list_of_employees=list_of_employees)
 
 @app.route('/admin/add_employee', methods=['POST'])
 def add_employee():
+    """
+    We create a random password, hash it, and store it in the database
+    :return: a redirect to the admin page.
+    """
     if not Employee.validate_employee_form_on_creation(request.form):
         return redirect('/admin')
     

@@ -150,6 +150,13 @@ class Employee:
 
     @staticmethod
     def validate_employee_form_on_creation(data):
+        """
+        This function checks to see if the first name, last name, and email are valid. If they are not, it
+        will flash a message to the user
+        
+        :param data: a dictionary of the form data
+        :return: A boolean value
+        """
         regex = re.compile('[@_!#$%^&*()<>?/\|}{~:]')
         
         is_valid = True
@@ -186,6 +193,12 @@ class Employee:
     
     @staticmethod
     def validate_employee_form_on_update(data):
+        """
+        The function validates the employee form on update
+        
+        :param data: the data that was submitted in the form
+        :return: is_valid
+        """
         regex = re.compile('[@_!#$%^&*()<>?/\|}{~:]')
         
         is_valid = True
