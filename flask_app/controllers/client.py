@@ -8,19 +8,33 @@ from flask_app.models.product_model import Product
 
 @app.route('/clients')
 def display_product():
+    """
+    It gets all the products from the database, and then renders a template that displays them
+    :return: A list of all the products in the database.
+    """
     list_of_products = Product.get_all_products()
     return render_template('display_all_products.html', list_of_products=list_of_products)
 
 
 @app.route('/clients/options')
 def show_client_options():
+    """
+    If the user is logged in, show them the cart page. If they're not logged in, show them the create
+    client page.
+    :return: the render_template function.
+    """
     if 'client_email' not in session:
-        return render_template('create_client.html')
+        return render_template('client_login_reg.html')
     return render_template('cart.html')
 
 
 @app.route('/clients/login', methods=['POST'])
 def check_for_client_in_database():
+    """
+    If the client's login information is not valid, redirect them to the client options page. Otherwise,
+    set the client's email in the session and redirect them to the client's page
+    :return: a redirect to the clients page.
+    """
     if not Client.validate_client_login(request.form):
         return redirect('/clients/options')
     session['client_email'] = request.form['email']
@@ -29,6 +43,11 @@ def check_for_client_in_database():
 
 @app.route('/clients/register', methods=['GET', 'POST'])
 def register_client():
+    """
+    If the user is not logged in, validate the form data, create a new client, and redirect to the cart
+    page
+    :return: the cart.html template.
+    """
     if 'client_email' not in session:
         if not Client.validate_client(request.form):
             return redirect('/clients/options')

@@ -2,6 +2,8 @@ from flask_app.config.mysqlconnection import connectToMySQL
 from flask_app import DATABASE
 from flask import flash
 
+from flask_app.models import product_model
+
 import re
 
 class Client:
@@ -12,6 +14,7 @@ class Client:
         self.email = data['email']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
+        self.products = None
         
         
     @classmethod
@@ -39,9 +42,9 @@ class Client:
         :param data: This is the data that we're passing into the query
         :return: A dictionary of the client's information.
         """
-        query = "SELECT * FROM clients WHERE id = %s"
+        query = "SELECT * FROM clients WHERE id = %(client_id)s"
         results = connectToMySQL(DATABASE).query_db(query, data)
-        if len(results) == 0:
+        if not results:
             return None
         return cls(results[0])
     
@@ -60,6 +63,40 @@ class Client:
         if not results:
             return None
         return cls(results[0])
+    
+    @classmethod
+    def get_product_by_client(cls, data):
+        query = """SELECT * FROM product_invoices
+        INNER JOIN invoices ON product_invoices.invoices_clients_email = invoices.clients_email
+        INNER JOIN clients ON invoices.clients_email = clients.email
+        WHERE clients.id = %(client_id)s"""
+        
+        results = connectToMySQL(DATABASE).query_db(query, data)
+        
+        if results:
+            client = cls(results[0])
+            client.products = []
+            
+            for result in results:
+                
+                if not result['email']:
+                    break
+                
+                product = {
+                    'id': result['id'],
+                    'name': result['name'],
+                    'category': result['category'],
+                    'discount': result['discount'],
+                    'price': result['price'],
+                    'status': result['status'],
+                    'created_at': result['created_at'],
+                    'updated_at': result['updated_at']
+                }
+                client.products.append(product_model.Product(product))
+                print(product)
+            return client
+        return []
+            
     
     @classmethod
     def create_relationship_with_employee(cls, data):

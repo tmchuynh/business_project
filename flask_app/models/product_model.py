@@ -33,6 +33,14 @@ class Product:
     
     @classmethod
     def get_product_by_id(cls, data):
+        """
+        It takes in a dictionary of data, and returns a product object if the product exists in the
+        database, or None if it doesn't
+        
+        :param cls: This is the class name
+        :param data: a dictionary of the data we want to pass to the database
+        :return: A dictionary of the product with the id that was passed in.
+        """
         query = "SELECT * FROM products WHERE id = %(product_id)s"
         results = connectToMySQL(DATABASE).query_db(query, data)
         if not results:
@@ -71,8 +79,7 @@ class Product:
             list_of_products.append(cls(result))
         return list_of_products
     
-    # @classmethod
-    # def get_product_by_client(cls, data):
+
         
     
     @classmethod
@@ -85,7 +92,7 @@ class Product:
         :param data: a dictionary of the data we want to insert into the database
         :return: The id of the product that was just created.
         """
-        query = "INSERT INTO products (name, price, status, category) VALUES (%(name)s, %(price)s, 0, %(category)s)"
+        query = "INSERT INTO products (name, price, status, category) VALUES (%(name)s, %(price)s, 'unassigned', %(category)s)"
         results = connectToMySQL(DATABASE).query_db(query, data)
         return results
     
