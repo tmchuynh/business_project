@@ -123,6 +123,6 @@ class Invoice:
         :param data: {
         :return: The results of the query.
         """
-        query = "INSERT INTO product_invoice (invoices_id, invoices_date_due, invoices_clients_email, product_id) VALUES (%(invoices_id)s, %(invoices_date_due)s, %(invoices_clients_email)s, %(product_id)s)"
+        query = "INSERT INTO product_invoices (invoices_id, invoices_date_due, invoices_clients_email, product_id) VALUES (%(invoices_id)s, %(invoices_date_due)s, %(invoices_clients_email)s, %(product_id)s)"
         results = connectToMySQL(DATABASE).query_db(query, data)
         return results

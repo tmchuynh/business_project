@@ -28,7 +28,7 @@ class Employee:
         :param cls: This is the class name
         :return: A list of all the employees in the database.
         """
-        query = "SELECT * FROM employee"
+        query = "SELECT * FROM employees"
         results = connectToMySQL(DATABASE).query_db(query)
         list_of_employees = []
         if not results:
@@ -49,7 +49,7 @@ class Employee:
         :param data: a dictionary of the data we want to pass to the query
         :return: A dictionary of the employee's information.
         """
-        query = "SELECT * FROM employee WHERE id = %(employee_id)s"
+        query = "SELECT * FROM employees WHERE id = %(employee_id)s"
         results = connectToMySQL(DATABASE).query_db(query, data)
         print(results)
         if not results:
@@ -68,7 +68,7 @@ class Employee:
         :param data: a dictionary of the data we want to pass to the query
         :return: A dictionary of the employee's information.
         """
-        query = "SELECT * FROM employee WHERE email = %(email)s"
+        query = "SELECT * FROM employees WHERE email = %(email)s"
         results = connectToMySQL(DATABASE).query_db(query, data)
         if not results:
             return None
@@ -86,7 +86,7 @@ class Employee:
         :param data: a dictionary of the data we want to insert into the database
         :return: The id of the employee that was just created.
         """
-        query = "INSERT INTO employee (first_name, last_name, email, password, temp_password) VALUES (%(first_name)s, %(last_name)s, %(email)s, %(password)s, %(temp_password)s)"
+        query = "INSERT INTO employees (first_name, last_name, email, password, temp_password) VALUES (%(first_name)s, %(last_name)s, %(email)s, %(password)s, %(temp_password)s)"
         results = connectToMySQL(DATABASE).query_db(query, data)
         return results
     
@@ -100,14 +100,14 @@ class Employee:
         :param data: a dictionary of the data we want to pass to the query
         :return: A client object with a list of employees
         """
-        query = """SELECT clients.*, employee.* FROM employee
-        LEFT JOIN client_employee_relationship ON client_employee_relationship.employee_id = employee.id
-        LEFT JOIN clients ON client_employee_relationship.clients_email = clients.email
-        WHERE employee.id = %(employee_id)s"""
+        query = """SELECT clients.*, employees.* FROM employees
+        LEFT JOIN client_employee_relationships ON client_employee_relationships.employee_id = employees.id
+        LEFT JOIN clients ON client_employee_relationships.clients_email = clients.email
+        WHERE employees.id = %(employee_id)s"""
         
         results = connectToMySQL(DATABASE).query_db(query, data)
         
-        if len(results):
+        if results:
             employee = cls(results[0])
             employee.clients = []
             
@@ -139,7 +139,7 @@ class Employee:
         :param data: a dictionary of the data we want to update in the database
         :return: The results of the query.
         """
-        query = "UPDATE employee SET new_employee = b'1', password = %(password)s, temp_password = 'employee updated' WHERE id = %(employee_id)s"
+        query = "UPDATE employees SET new_employee = b'1', password = %(password)s, temp_password = 'employee updated' WHERE id = %(employee_id)s"
         results = connectToMySQL(DATABASE).query_db(query, data)
         return results
     
@@ -154,7 +154,7 @@ class Employee:
         :param data: a dictionary of the data you want to insert into the database
         :return: The results of the query.
         """
-        query = "DELETE FROM employee WHERE id = %(employee_id)s"
+        query = "DELETE FROM employees WHERE id = %(employee_id)s"
         results = connectToMySQL(DATABASE).query_db(query, data)
         return results
     
@@ -168,7 +168,7 @@ class Employee:
         :param data: a dictionary of the data you want to insert into the database
         :return: The results of the query.
         """
-        query = "INSERT INTO client_relationship (client_email, employee_email) VALUES (%(client_email)s, %(employee_email)s"
+        query = "INSERT INTO client_relationships (client_email, employee_email) VALUES (%(client_email)s, %(employee_email)s"
         results = connectToMySQL(DATABASE).query_db(query, data)
         return results
     
@@ -183,7 +183,7 @@ class Employee:
         :param data: a dictionary of the data we want to insert into the database
         :return: The query is being returned.
         """
-        query = "SELECT * FROM employee WHERE email = %(email)s"
+        query = "SELECT * FROM employees WHERE email = %(email)s"
         results = connectToMySQL(DATABASE).query_db(query, data)
         if len(results) == 0:
             return False

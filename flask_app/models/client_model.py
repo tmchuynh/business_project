@@ -70,7 +70,7 @@ class Client:
         :param data: a dictionary of the data we want to pass to the query
         :return: The results of the query.
         """
-        query = "INSERT INTO client_employee_relationship (clients_id, clients_email, employee_id, employee_email) VALUES (%(client_id)s, %(client_email)s, %(employee_id)s, %(employee_email)s)"
+        query = "INSERT INTO client_employee_relationships (clients_id, clients_email, employee_id, employee_email) VALUES (%(client_id)s, %(client_email)s, %(employee_id)s, %(employee_email)s)"
         results = connectToMySQL(DATABASE).query_db(query, data)
         return results
 

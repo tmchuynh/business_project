@@ -70,7 +70,7 @@ class Product:
         :param data: a dictionary of the data we want to insert into the database
         :return: The id of the product that was just created.
         """
-        query = "INSERT INTO products (name, price, discount, status, category, employee_id) VALUES (%(name)s, %(price)s, %(discount)s, %(status)s, %(category)s, %(employee_id)s)"
+        query = "INSERT INTO products (name, price, status, category) VALUES (%(name)s, %(price)s, 0, %(category)s)"
         results = connectToMySQL(DATABASE).query_db(query, data)
         return results
     
@@ -83,7 +83,7 @@ class Product:
         :param data: a dictionary of the data we want to update in the database
         :return: The results of the query.
         """
-        query = "UPDATE products SET name = %(name)s, price = %(price)s, discount = %(discount)s, status = %(status)s, category = %(category)s, employee_id = %(employee_id)s WHERE id = %(product_id)s"
+        query = "UPDATE products SET name = %(name)s, price = %(price)s, discount = %(discount)s, status = %(status)s, category = %(category)s WHERE id = %(product_id)s"
         results = connectToMySQL(DATABASE).query_db(query, data)
         return results
     
@@ -109,6 +109,20 @@ class Product:
         :param data: a dictionary of the data you want to insert into the database
         :return: The results of the query.
         """
-        query = "INSERT INTO product_team (product_id, employee_email) VALUES (%(product_id)s, %(employee_email)s)"
+        query = "INSERT INTO product_teams (product_id, employee_email, employee_id) VALUES (%(product_id)s, %(employee_email)s, %(employee_id)s)"
         results = connectToMySQL(DATABASE).query_db(query, data)
         return results
+    
+    @classmethod
+    def validate_product_form_on_creation(cls, data):
+        is_valid = True
+        if len(data['name']) < 5:
+            flash('Name must be at least 5 characters long', 'product_creation')
+            is_valid = False
+        if len(data['category']) < 5:
+            flash('Category must be at least 5 characters long', 'product_creation')
+            is_valid = False
+        if int(data['price']) < 3:
+            flash('Price must be at least 3', 'product_creation')
+            is_valid = False
+        return is_valid
