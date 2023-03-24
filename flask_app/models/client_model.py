@@ -66,6 +66,13 @@ class Client:
     
     @classmethod
     def get_product_by_client(cls, data):
+        """
+        It gets all the products that a client has purchased.
+        
+        :param cls: This is the class that we are calling the method on. In this case, it's the Client class
+        :param data: This is the data that we're passing into the query
+        :return: A list of dictionaries
+        """
         query = """SELECT * FROM product_invoices
         INNER JOIN invoices ON product_invoices.invoices_clients_email = invoices.clients_email
         INNER JOIN clients ON invoices.clients_email = clients.email
@@ -220,6 +227,12 @@ class Client:
     
     @staticmethod
     def validate_client_login(data):
+        """
+        This function checks to see if the email is in the database, and if the first name is not empty
+        
+        :param data: This is the data that is being passed in from the form
+        :return: A boolean value
+        """
         is_valid = True
         this_user = {
             'email': data['email']

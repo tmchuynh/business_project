@@ -8,6 +8,12 @@ from flask_app.models.client_model import Client
 
 @app.route('/client/<int:id>')
 def display_client_products(id):
+    """
+    This function takes in a client id and returns a list of products that belong to that client
+    
+    :param id: the id of the client
+    :return: A list of products that are associated with the client.
+    """
     this_client = {
         'client_id': id,
     }
