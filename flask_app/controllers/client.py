@@ -3,6 +3,7 @@ from flask_app import app
 from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
 from flask_app.models.client_model import Client
+from flask_app.models.employee_model import Employee
 
 @app.route('/employee/add_client', methods=['POST'])
 def add_client():
@@ -39,5 +40,9 @@ def get_clients():
     of clients
     :return: A list of all clients
     """
-    list_of_clients = Client.get_all_clients()
-    return render_template('employee_home.html', list_of_clients=list_of_clients)
+    this_employee = {
+        'employee_id': session['employee_id'],
+    }
+    client_object = Employee.get_client_by_employee(this_employee)
+    print(client_object)
+    return render_template('employee_home.html', client_object=client_object)

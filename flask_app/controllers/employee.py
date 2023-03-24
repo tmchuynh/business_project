@@ -65,7 +65,7 @@ def employee_update(id):
     
     Employee.update_employee(this_employee)
     # need to redirect to employee login page
-    return redirect('/employee/login')
+    return redirect('/employee')
 
 
 @app.route('/employee/login', methods=['POST'])

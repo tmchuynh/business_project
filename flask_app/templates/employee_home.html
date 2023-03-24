@@ -52,7 +52,7 @@
                 <ul>
                 <!-- This is a for loop that is iterating through the list of clients that are in the list_of_clients
                 variable. -->
-                {% for client in list_of_clients: %}
+                {% for client in client_object.clients: %}
                     <li>{{client.first_name}} {{client.last_name}}</li>
                 {% endfor %}
                 </ul>

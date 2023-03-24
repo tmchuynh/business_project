@@ -2,8 +2,6 @@ from flask_app.config.mysqlconnection import connectToMySQL
 from flask_app import DATABASE
 from flask import flash
 
-from flask_app.models import employee_model
-
 import re
 
 class Client:
@@ -14,7 +12,6 @@ class Client:
         self.email = data['email']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
-        self.employee = None
         
         
     @classmethod
@@ -76,44 +73,6 @@ class Client:
         query = "INSERT INTO client_employee_relationship (clients_id, clients_email, employee_id, employee_email) VALUES (%(client_id)s, %(client_email)s, %(employee_id)s, %(employee_email)s)"
         results = connectToMySQL(DATABASE).query_db(query, data)
         return results
-    
-    
-    @classmethod
-    def get_client_by_employee(cls, data):
-        """
-        > This function returns a client object with a list of employee objects that are associated with the
-        client
-        
-        :param cls: The class that is calling the method
-        :param data: a dictionary of the data we want to pass to the query
-        :return: A client object with a list of employees
-        """
-        query = """SELECT clients.*, employee.first_name, employee.last_name, employee.email FROM clients
-        LEFT JOIN client_employee_relationship ON client_employee_relationship.clients_id = clients.id
-        LEFT JOIN employee ON client_employee_relationship.employee_id = employee.id
-        WHERE employee.id = %(employee_id)s"""
-        
-        results = connectToMySQL(DATABASE).query_db(query, data)
-        
-        if len(results):
-            client = cls(results[0])
-            client.employee = []
-            
-            for result in results:
-                if not result['employee_id']:
-                    break
-                
-                employee = {
-                    'id': result['id'],
-                    'first_name': result['first_name'],
-                    'last_name': result['last_name'],
-                    'email': result['email'],
-                    'created_at': result['created_at'],
-                    'updated_at': result['updated_at']
-                }
-                client.employee.append(employee_model.Employee(employee))
-            return client
-        return None
 
     
     @classmethod
