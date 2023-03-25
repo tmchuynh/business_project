@@ -9,36 +9,34 @@
         <link rel="stylesheet" href={{ url_for( 'static', filename='index.css' ) }}>
     </head>
     <body>
-        <div class="container">
-                       <div class="d-flex">
-                <a href="/logout" class="btn btn-secondary">Dashboard</a>
+        <div class="container p-5">
+            <div class="d-flex">
+                <a href="/employee/get_clients" class="btn btn-secondary">Return to Employee Home</a>
             </div>
-            <div class="container pt-5">
-                <h1>{{current_client.first_name}}'s Products</h1>
-                <table>
-                    <thead>
-                        <th>Product</th>
-                        <th>Category</th>
-                        <th>Status</th>
-                        <th>Price</th>
-                    </thead>
-                    <tbody>
-                        <!-- This is a for loop that is iterating through the list of products and displaying the name, category,
-                        status, and price of each product. -->
-                        {% for product in list_of_products: %}
-                        <tr>
-                            <td>{{product.name}}</td>
-                            <td>{{product.category}}</td>
-                            <td>{{product.status}}</td>
-                            <td>{{product.price}}</td>
-                            <td class="d-flex gap-2">
-                                <a href='/clients/options' class='btn btn-primary'>Add to Cart</a>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+            <h1>{{current_client.first_name}}'s Products</h1>
+            <table>
+                <thead>
+                    <th>Product</th>
+                    <th>Category</th>
+                    <th>Status</th>
+                    <th>Price</th>
+                </thead>
+                <tbody>
+                    <!-- This is a for loop that is iterating through the list of products and displaying the name, category,
+                    status, and price of each product. -->
+                    {% for product in list_of_products: %}
+                    <tr>
+                        <td>{{product.name}}</td>
+                        <td>{{product.category}}</td>
+                        <td>{{product.status}}</td>
+                        <td>{{product.price}}</td>
+                        <td class="d-flex gap-2">
+                            <a href='/clients/options' class='btn btn-primary'>Add to Cart</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
     </body>

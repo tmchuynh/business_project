@@ -15,6 +15,7 @@ class Client:
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
         self.products = None
+        self.buying = None
         
         
     @classmethod
