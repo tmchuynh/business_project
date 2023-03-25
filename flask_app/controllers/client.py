@@ -12,12 +12,14 @@ def display_product():
     It gets all the products from the database, and then renders a template that displays them
     :return: A list of all the products in the database.
     """
+    if 'buying' not in session:
+        session['buying'] = []
     list_of_products = Product.get_all_products()
     return render_template('display_all_products.html', list_of_products=list_of_products)
 
 
-@app.route('/clients/options')
-def show_client_options():
+@app.route('/clients/options/<int:product_id>')
+def show_client_options(product_id):
     """
     If the user is logged in, show them the cart page. If they're not logged in, show them the create
     client page.
@@ -25,6 +27,7 @@ def show_client_options():
     """
     if 'client_email' not in session:
         return render_template('client_login_reg.html')
+    session['buying'].append(product_id)
     return render_template('cart.html')
 
 
@@ -62,6 +65,7 @@ def register_client():
         session['client_email'] = new_client['email']
         print(session['client_email'])
         return redirect('/clients')
+    session['buying'] = []
     return render_template('cart.html')
 
 @app.route('/employee/add_client', methods=['POST'])
