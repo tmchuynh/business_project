@@ -4,6 +4,7 @@ from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
 from flask_app.models.employee_model import Employee
 from flask_app.models.product_model import Product
+from flask_app.models.client_model import Client
 import random, string
 
 @app.route('/admin')
@@ -14,7 +15,8 @@ def admin():
     """
     list_of_employees = Employee.get_all_employees()
     list_of_products = Product.get_all_products()
-    return render_template('admin.html', list_of_employees=list_of_employees, list_of_products=list_of_products)
+    list_of_clients = Client.get_all_clients()
+    return render_template('admin.html', list_of_employees=list_of_employees, list_of_products=list_of_products, list_of_clients=list_of_clients)
 
 @app.route('/admin/add_employee', methods=['POST'])
 def add_employee():
