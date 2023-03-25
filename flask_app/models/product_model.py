@@ -63,6 +63,7 @@ class Product:
             list_of_products.append(cls(result))
         return list_of_products
     
+    
     @classmethod
     def get_product_by_category(cls, data):
         """
@@ -80,7 +81,6 @@ class Product:
         return list_of_products
     
 
-        
     
     @classmethod
     def create_product(cls, data):
@@ -96,6 +96,7 @@ class Product:
         results = connectToMySQL(DATABASE).query_db(query, data)
         return results
     
+    
     @classmethod
     def update_product(cls, data):
         """
@@ -108,6 +109,7 @@ class Product:
         query = "UPDATE products SET name = %(name)s, price = %(price)s, discount = %(discount)s, status = %(status)s, category = %(category)s WHERE id = %(product_id)s"
         results = connectToMySQL(DATABASE).query_db(query, data)
         return results
+    
     
     @classmethod
     def delete_product(cls, data):
@@ -122,6 +124,7 @@ class Product:
         results = connectToMySQL(DATABASE).query_db(query, data)
         return results
     
+    
     @classmethod
     def assign_to_employee(cls, data):
         """
@@ -134,6 +137,7 @@ class Product:
         query = "INSERT INTO product_teams (product_id, employee_email, employee_id) VALUES (%(product_id)s, %(employee_email)s, %(employee_id)s)"
         results = connectToMySQL(DATABASE).query_db(query, data)
         return results
+    
     
     @classmethod
     def validate_product_form_on_creation(cls, data):

@@ -55,7 +55,7 @@
                         <td>{{employee.email}}</td>
                         <td>{{employee.temp_password}}</td>
                         <td class="d-flex gap-2">
-                            <a href='/admin/edit_employee_form/{{employee.id}}' class='btn btn-primary'>Edit</a>
+                            <a href='/admin/edit_employee_form/{{employee.id}}' class='btn btn-primary disabled'>Edit</a>
                             <a href='/admin/delete_employee/{{employee.id}}' class='btn btn-danger'>Delete</a>
                         </td>
                     </tr>
@@ -108,7 +108,7 @@
                         <td>{{item.discount}}</td>
                         <td class="d-flex gap-2">
                             <a href='' class='btn btn-primary disabled'>Edit</a>
-                            <a href='' class='btn btn-danger disabled'>Delete</a>
+                            <a href='/admin/delete_product/{{item.id}}' class='btn btn-danger'>Delete</a>
                         </td>
                     </tr>
                     {% endfor %}

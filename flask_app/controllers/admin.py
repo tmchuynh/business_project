@@ -98,3 +98,12 @@ def add_product():
     Product.create_product(new_product)
     flash('Product added successfully', 'product_added')
     return redirect('/admin')
+
+
+@app.route('/admin/delete_product/<int:product_id>')
+def delete_product(product_id):
+    this_product = {
+        'product_id': product_id
+    }
+    Product.delete_product(this_product)
+    return redirect('/admin')
