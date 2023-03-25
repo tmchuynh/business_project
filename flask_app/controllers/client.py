@@ -68,6 +68,7 @@ def register_client():
     session['buying'] = []
     return render_template('cart.html')
 
+
 @app.route('/employee/add_client', methods=['POST'])
 def add_client():
     """
@@ -95,6 +96,7 @@ def add_client():
     Client.create_relationship_with_employee(relationship)
     # updates the list of the employee's clients before they add a new client ( same page )
     return redirect('/employee/get_clients')
+
 
 @app.route('/employee/get_clients', methods=['GET'])
 def get_clients():

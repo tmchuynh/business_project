@@ -16,20 +16,20 @@
             <a href="/logout" class="btn btn-secondary">Log Out from Admin</a>
         </div>
         <div class="container d-flex flex-row gap-4">
-            <form action="/admin/add_employee" method="POST" class="form-horizontal col-8">
+            <form action="/admin/edit_employee/{{employee.id}}" method="POST" class="form-horizontal col-8">
                 <!-- This is a Jinja2 template. It is a for loop that iterates through the list of messages that are
                 flashed. -->
-                {% for message in get_flashed_messages(category_filter = ['employee_added', 'employee_updated']) %}
+                {% for message in get_flashed_messages(category_filter = ['employee_added']) %}
                 <div class="alert alert-danger">
                     {{ message }}
                 </div>
                 {% endfor %}
                 <label for="first_name">First Name</label>
-                <input type="text" name="first_name">
+                <input type="text" name="first_name" value="{{employee.first_name}}">
                 <label for="last_name">Last Name</label>
-                <input type="text" name="last_name">
+                <input type="text" name="last_name" value="{{employee.last_name}}">
                 <label for="email">Email</label>
-                <input type="text" name="email">
+                <input type="text" name="email" value="{{employee.email}}">
                 <!-- This is a Jinja2 template. It is a for loop that iterates through the list of messages that are
                 flashed. -->
                 {% for message in get_flashed_messages(category_filter = ['registration']) %}
@@ -37,7 +37,7 @@
                         {{ message }}
                     </div>
                 {% endfor %}
-                <button type="submit" class="btn btn-success">Add Employee to Rooster</button>
+                <button type="submit" class="btn btn-success">Edit {{employee.first_name}}'s Information</button>
             </form>
 
             <table class="col-8">
@@ -55,8 +55,8 @@
                         <td>{{employee.email}}</td>
                         <td>{{employee.temp_password}}</td>
                         <td class="d-flex gap-2">
-                            <a href='/admin/edit_employee_form/{{employee.id}}' class='btn btn-primary'>Edit</a>
-                            <a href='/admin/delete_employee/{{employee.id}}' class='btn btn-danger'>Delete</a>
+                            <a href='' class='btn btn-primary disabled'>Edit</a>
+                            <a href='' class='btn btn-danger disabled'>Delete</a>
                         </td>
                     </tr>
                     {% endfor %}
@@ -76,11 +76,11 @@
                 </div>
                 {% endfor %}
                 <label for="name">Name</label>
-                <input type="text" name="name">
+                <input type="text" name="name" disabled>
                 <label for="category">Category</label>
-                <input type="text" name="category">
+                <input type="text" name="category" disabled>
                 <label for="price">Price</label>
-                <input type="text" name="price">
+                <input type="text" name="price" disabled>
                 <!-- This is a Jinja2 template. It is a for loop that iterates through the list of messages that are
                 flashed. -->
                 {% for message in get_flashed_messages(category_filter = ['product_creation']) %}

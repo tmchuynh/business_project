@@ -90,6 +90,7 @@ class Employee:
         results = connectToMySQL(DATABASE).query_db(query, data)
         return results
     
+    
     @classmethod
     def get_client_by_employee(cls, data):
         """
@@ -140,6 +141,13 @@ class Employee:
         :return: The results of the query.
         """
         query = "UPDATE employees SET new_employee = b'1', password = %(password)s, temp_password = 'employee updated' WHERE id = %(employee_id)s"
+        results = connectToMySQL(DATABASE).query_db(query, data)
+        return results
+    
+    
+    @classmethod
+    def admin_update_employee(cls, data):
+        query = "UPDATE employees SET first_name = %(first_name)s, last_name = %(last_name), email = %(email)s WHERE id = %(employee_id)s"
         results = connectToMySQL(DATABASE).query_db(query, data)
         return results
     
@@ -215,20 +223,24 @@ class Employee:
         
         regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
         
-        if (re.fullmatch(regex, data['email'])):
-            # email is valid
-            # need to check if the email is already in use
-            this_user = {
-                'email': data['email']
-            }
-            results = Employee.check_database(this_user)
-            
-            if results:
-                flash('Email is already in use, please use a different email', "registration")
-                is_valid = False
-        else:
-            flash('Email contains special characters', "registration")
+        if len(data['email']) == 0:
+            flash('Email cannot be empty.', "registration")
             is_valid = False
+        else:    
+            if (re.fullmatch(regex, data['email'])):
+                # email is valid
+                # need to check if the email is already in use
+                this_user = {
+                    'email': data['email']
+                }
+                results = Employee.check_database(this_user)
+                
+                if results:
+                    flash('Email is already in use, please use a different email', "registration")
+                    is_valid = False
+            else:
+                flash('Email contains special characters', "registration")
+                is_valid = False
         
         return is_valid
     

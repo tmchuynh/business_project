@@ -48,6 +48,7 @@ class Client:
             return None
         return cls(results[0])
     
+    
     @classmethod
     def get_client_by_email(cls, data):
         """
@@ -63,6 +64,7 @@ class Client:
         if not results:
             return None
         return cls(results[0])
+    
     
     @classmethod
     def get_product_by_client(cls, data):
@@ -224,6 +226,7 @@ class Client:
             is_valid = False
         
         return is_valid
+    
     
     @staticmethod
     def validate_client_login(data):
