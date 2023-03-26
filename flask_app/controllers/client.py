@@ -82,16 +82,38 @@ def register_client():
     if 'client_email' not in session:
         if not Client.validate_client(request.form):
             return redirect('/clients/options')
+        
+        # create a new client
         new_client = {
             'first_name': request.form['first_name'],
             'last_name': request.form['last_name'],
             'email': request.form['email']
         }
-        Client.create_client(new_client)
+        c = Client.create_client(new_client)
+        print(c)
         flash('You have successfully registered!', 'client_success')
+        
+        # store the new client in the session
         session['client_first_name'] = request.form['first_name']
         session['client_email'] = new_client['email']
         print("logged in client ", session['client_email'])
+        
+        # create the relationship between the client and the employee
+        # employee information
+        this_employee = {
+            'email': request.form['employee_email']
+        }
+        e = Employee.get_employee_by_email(this_employee)
+        print(e)
+        relationship = {
+            'client_id': c.id,
+            'client_email': session['client_email'],
+            'employee_id': e.id,
+            'employee_email': request.form['employee_email']
+        }
+        Client.create_relationship_with_employee(relationship)
+        
+        
         return redirect('/clients')
     session['buying'] = []
     return render_template('cart.html')

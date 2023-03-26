@@ -3,6 +3,7 @@ from flask_app import DATABASE
 from flask import flash
 
 from flask_app.models import product_model
+from flask_app.models import employee_model
 
 import re
 
@@ -207,23 +208,46 @@ class Client:
         
         regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
         
-        if (re.fullmatch(regex, data['email'])):
-            if not data['email'] == data['email_confirmation']:
-                flash('Emails do not match', "new_client")
-                is_valid = False
-            # email is valid
-            # need to check if the email is already in use
-            this_user = {
-                'email': data['email']
-            }
-            results = Client.check_database(this_user)
-            
-            if results:
-                flash('Email is already in use, please use a different email', "new_client")
-                is_valid = False
-        else:
-            flash('Email contains special characters', "new_client")
+        if len(data['email']) == 0:
+            flash('Email address cannot be empty.', "new_client")
             is_valid = False
+        else:
+            if (re.fullmatch(regex, data['email'])):
+                if not data['email'] == data['email_confirmation']:
+                    flash('Emails do not match', "new_client")
+                    is_valid = False
+                # email is valid
+                # need to check if the email is already in use
+                this_user = {
+                    'email': data['email']
+                }
+                results = Client.check_database(this_user)
+                
+                if results:
+                    flash('Email is already in use, please use a different email', "new_client")
+                    is_valid = False
+            else:
+                flash('Email contains special characters', "new_client")
+                is_valid = False
+                
+        if len(data['employee_email']) == 0:
+            flash('Employee email address cannot be empty.', "new_client")
+            is_valid = False
+        else:
+            if (re.fullmatch(regex, data['employee_email'])):
+                this_employee = {
+                    'email': data['employee_email']
+                }
+                results = employee_model.Employee.check_database(this_employee)
+                
+                if not results:
+                    flash('Cannot find employee in our system, please try again', "new_client")
+                    is_valid = False
+            else:
+                flash('Employee email contains special characters', "new_client")
+                is_valid = False
+                    
+                
         
         return is_valid
     
