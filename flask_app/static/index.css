@@ -17,9 +17,14 @@ form p {
     color: red;
 }
 
+tr {
+    max-height: 5rem;
+}
+
 tr a {
     float: right;
 }
+
 
 a {
     list-style: none;
