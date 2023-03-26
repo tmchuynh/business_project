@@ -48,6 +48,13 @@ def add_employee():
 
 @app.route('/admin/edit_employee/<int:employee_id>', methods=['POST'])
 def edit_employee(employee_id):
+    """
+    This function takes in an employee_id, validates the form data, updates the employee in the
+    database, and redirects the user to the admin page.
+    
+    :param employee_id: the id of the employee to be updated
+    :return: The employee_id, first_name, last_name, and email are being returned.
+    """
     if not Employee.validate_employee_form_on_admin_update(request.form):
         return redirect(f'/admin')
     this_employee = {
@@ -63,6 +70,13 @@ def edit_employee(employee_id):
 
 @app.route('/admin/delete_employee/<int:employee_id>')
 def delete_employee(employee_id):
+    """
+    It takes an employee_id as an argument, creates a dictionary with that employee_id, and then passes
+    that dictionary to the delete_employee function in the Employee class
+    
+    :param employee_id: The id of the employee to be deleted
+    :return: the redirect function.
+    """
     this_employee = {
         'employee_id': employee_id
     }
@@ -89,8 +103,36 @@ def add_product():
     return redirect('/admin')
 
 
+@app.route('/admin/edit_product/<int:product_id>', methods=['POST'])
+def edit_product(product_id):
+    """
+    It updates a product in the database
+    
+    :param product_id: The id of the product to be edited
+    :return: a redirect to the admin page.
+    """
+    if not Product.validate_product_form_on_creation(request.form):
+        return redirect('/admin')
+    this_product = {
+        'product_id': product_id,
+        'name': request.form['name'],
+        'price': request.form['price'],
+        'discount': request.form['discount'],
+        'category': request.form['category']
+    }
+    Product.update_product(this_product)
+    flash('Product updated successfully', 'product_updated')
+    return redirect('/admin')
+
+
 @app.route('/admin/delete_product/<int:product_id>')
 def delete_product(product_id):
+    """
+    It deletes a product from the database
+    
+    :param product_id: The id of the product to be deleted
+    :return: the redirect function.
+    """
     this_product = {
         'product_id': product_id
     }

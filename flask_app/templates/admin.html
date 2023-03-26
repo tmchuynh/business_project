@@ -132,10 +132,36 @@
                         <td>{{item.price}}</td>
                         <td>{{item.discount}}</td>
                         <td class="d-flex gap-2">
-                            <a href='' class='btn btn-primary disabled'>Edit</a>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#PRODUCT{{item.id}}">
+                                Edit
+                            </button>
                             <a href='/admin/delete_product/{{item.id}}' class='btn btn-danger'>Delete</a>
                         </td>
                     </tr>
+
+                    <div class="modal fade" id="PRODUCT{{item.id}}" tabindex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="editProductModalLabel">Edit {{item.name}} Details</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body d-flex flex-column">
+                                    <form action="/admin/edit_product/{{item.id}}" method="POST" class="form-horizontal col-8">
+                                        <label for="name">Name</label>
+                                        <input type="text" name="name" value="{{item.name}}">
+                                        <label for="category">Category</label>
+                                        <input type="text" name="category" value="{{item.category}}">
+                                        <label for="price">Price</label>
+                                        <input type="text" name="price" value="{{item.price}}">
+                                        <label for="discount">Discount</label>
+                                        <input type="text" name="discount" value="{{item.discount}}">
+                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     {% endfor %}
                 </tbody>
             </table>

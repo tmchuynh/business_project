@@ -106,7 +106,7 @@ class Product:
         :param data: a dictionary of the data we want to update in the database
         :return: The results of the query.
         """
-        query = "UPDATE products SET name = %(name)s, price = %(price)s, discount = %(discount)s, status = %(status)s, category = %(category)s WHERE id = %(product_id)s"
+        query = "UPDATE products SET name = %(name)s, price = %(price)s, discount = %(discount)s, category = %(category)s WHERE id = %(product_id)s"
         results = connectToMySQL(DATABASE).query_db(query, data)
         return results
     
@@ -148,7 +148,7 @@ class Product:
         if len(data['category']) < 5:
             flash('Category must be at least 5 characters long', 'product_creation')
             is_valid = False
-        if int(data['price']) < 3:
+        if float(data['price']) < 3:
             flash('Price must be at least 3', 'product_creation')
             is_valid = False
         return is_valid

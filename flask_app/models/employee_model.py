@@ -147,7 +147,14 @@ class Employee:
     
     @classmethod
     def admin_update_employee(cls, data):
-        query = "UPDATE employees SET first_name = %(first_name)s, last_name = %(last_name), email = %(email)s WHERE id = %(employee_id)s"
+        """
+        This function updates the employee's first name, last name, and email address in the database
+        
+        :param cls: This is the class that the method is being called on. In this case, it's the User class
+        :param data: a dictionary of the data we want to update in the database
+        :return: The results of the query.
+        """
+        query = "UPDATE employees SET first_name = %(first_name)s, last_name = %(last_name)s, email = %(email)s WHERE id = %(employee_id)s"
         results = connectToMySQL(DATABASE).query_db(query, data)
         return results
     
