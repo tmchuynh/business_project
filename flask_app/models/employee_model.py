@@ -246,6 +246,53 @@ class Employee:
     
     
     @staticmethod
+    def validate_employee_form_on_admin_update(data):
+        """
+        This function checks to see if the first name, last name, and email are valid. If they are not, it
+        will flash a message to the user
+        
+        :param data: a dictionary of the form data
+        :return: A boolean value
+        """
+        regex = re.compile('[@_!#$%^&*()<>?/\|}{~:]')
+        
+        is_valid = True
+        
+        if (regex.search(data['first_name']) != None or len(data['first_name']) < 2):
+            # first name contains special characters
+            flash('First name contains special characters or does not meet minimum length requirements.', "admin_update_employee")
+            is_valid = False
+        
+        if (regex.search(data['last_name'])!= None or len(data['last_name']) < 2):
+            # last name contains special characters
+            flash('Last name contains special characters or does not meet minimum length requirements.', "admin_update_employee")
+            is_valid = False
+        
+        regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
+        
+        if len(data['email']) == 0:
+            flash('Email cannot be empty.', "admin_update_employee")
+            is_valid = False
+        else:    
+            if (re.fullmatch(regex, data['email'])):
+                # email is valid
+                # need to check if the email is already in use
+                this_user = {
+                    'email': data['email']
+                }
+                results = Employee.check_database(this_user)
+                
+                if results:
+                    flash('Email is already in use, please use a different email', "admin_update_employee")
+                    is_valid = False
+            else:
+                flash('Email contains special characters', "admin_update_employee")
+                is_valid = False
+        
+        return is_valid
+    
+    
+    @staticmethod
     def validate_employee_form_on_update(data):
         """
         The function validates the employee form on update

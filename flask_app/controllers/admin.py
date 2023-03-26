@@ -46,23 +46,12 @@ def add_employee():
     return redirect('/admin')
 
 
-@app.route('/admin/edit_employee_form/<int:employee_id>')
-def edit_employee_form(employee_id):
-    this_employee = {
-        'employee_id': employee_id
-    }
-    employee = Employee.get_employee_by_id(this_employee)
-    list_of_employees = Employee.get_all_employees()
-    list_of_products = Product.get_all_products()
-    list_of_clients = Client.get_all_clients()
-    return render_template('admin_edit_employee_form.html', list_of_clients=list_of_clients, list_of_products=list_of_products, list_of_employees=list_of_employees, employee=employee)
-
-
 @app.route('/admin/edit_employee/<int:employee_id>', methods=['POST'])
 def edit_employee(employee_id):
-    if not Employee.validate_employee_form_on_creation(request.form):
-        return redirect(f'/admin/edit_employee_form/{employee_id}')
+    if not Employee.validate_employee_form_on_admin_update(request.form):
+        return redirect(f'/admin')
     this_employee = {
+        'employee_id': employee_id,
         'first_name': request.form['first_name'],
         'last_name': request.form['last_name'],
         'email': request.form['email']
