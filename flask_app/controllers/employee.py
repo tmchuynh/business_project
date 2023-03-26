@@ -12,7 +12,7 @@ def index():
 @app.route('/logout')
 def logout():
     session.clear()
-    return render_template('index.html')
+    return redirect('/')
 
 
 @app.route('/employee')
@@ -57,7 +57,7 @@ def employee_update(id):
     
     # employee is done
     current_employee = Employee.get_employee_by_id(this_id)
-    print(current_employee)
+    print("logged in ", current_employee)
     session['first_name'] = current_employee.first_name
     session['last_name'] = current_employee.last_name
     session['employee_id'] = current_employee.id

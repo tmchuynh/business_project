@@ -27,9 +27,35 @@ def show_client_options(product_id):
     """
     if 'client_email' not in session:
         return render_template('client_login_reg.html')
-    session['buying'] += [product_id]
+    
+    # It's checking to see if the product_id is in the session['buying'] list. If it's not, it adds it to
+    # the list.
+    if product_id not in session['buying']:
+        session['buying'] += [product_id]
     print(f"session has {len(session['buying'])} items in it")
-    return render_template('cart.html')
+    return redirect('/clients/cart')
+
+
+@app.route('/clients/cart')
+def show_cart():
+    """
+    It gets the list of products from the session, gets the product details from the database,
+    calculates the total price, and then renders the cart.html template
+    :return: A list of products and the total price of the products in the cart.
+    """
+    list_of_products = []
+    total_price = 0
+    for item in session['buying']:
+        this_item = {
+            'product_id': item,
+        }
+        this_product = Product.get_product_by_id(this_item)
+        
+        # It's calculating the price of the product after the discount has been applied.
+        total_price += (this_product.price - (this_product.price * this_product.discount))
+        
+        list_of_products.append(this_product)
+    return render_template('cart.html', list_of_products=list_of_products, total_price=total_price)
 
 
 @app.route('/clients/login', methods=['POST'])
@@ -41,6 +67,7 @@ def check_for_client_in_database():
     """
     if not Client.validate_client_login(request.form):
         return redirect('/clients/options')
+    session['client_first_name'] = request.form['first_name']
     session['client_email'] = request.form['email']
     return redirect('/clients')
 
@@ -62,9 +89,9 @@ def register_client():
         }
         Client.create_client(new_client)
         flash('You have successfully registered!', 'client_success')
-        print(new_client['email'])
+        session['client_first_name'] = request.form['first_name']
         session['client_email'] = new_client['email']
-        print(session['client_email'])
+        print("logged in client ", session['client_email'])
         return redirect('/clients')
     session['buying'] = []
     return render_template('cart.html')
@@ -87,7 +114,7 @@ def add_client():
     Client.create_client(new_client)
     flash('Client added successfully', 'client_added')
     current_client = Client.get_client_by_email(new_client)
-    print(current_client)
+    print("new client added ", current_client)
     relationship = {
         'client_id': current_client.id,
         'client_email': current_client.email,

@@ -141,6 +141,15 @@ class Product:
     
     @classmethod
     def validate_product_form_on_creation(cls, data):
+        """
+        If the name is less than 5 characters, flash a message and set is_valid to False. If the category is
+        less than 5 characters, flash a message and set is_valid to False. If the price is less than 3,
+        flash a message and set is_valid to False
+        
+        :param cls: The class that the method is being called on
+        :param data: This is the data that is passed in from the form
+        :return: is_valid
+        """
         is_valid = True
         if len(data['name']) < 5:
             flash('Name must be at least 5 characters long', 'product_creation')

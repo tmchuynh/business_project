@@ -18,6 +18,6 @@ def display_client_products(id):
         'client_id': id,
     }
     current_client = Client.get_client_by_id(this_client)
-    print(current_client)
+    print("current client ", current_client)
     list_of_products = Client.get_product_by_client(this_client)
     return render_template('client_products.html', list_of_products=list_of_products, current_client=current_client)

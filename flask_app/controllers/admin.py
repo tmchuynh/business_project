@@ -31,7 +31,7 @@ def add_employee():
     # when an employee is first created, the password is randomly generated
     temp = string.ascii_lowercase + string.ascii_uppercase + string.digits
     temp_password = ''.join(random.choice(temp) for i in range(8))
-    print(temp_password)
+    print("temp password ", temp_password)
     
     new_employee = {
         'first_name': request.form['first_name'],
