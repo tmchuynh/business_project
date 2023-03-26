@@ -246,8 +246,6 @@ class Client:
             else:
                 flash('Employee email contains special characters', "new_client")
                 is_valid = False
-                    
-                
         
         return is_valid
     
