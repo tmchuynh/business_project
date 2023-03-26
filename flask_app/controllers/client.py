@@ -27,7 +27,8 @@ def show_client_options(product_id):
     """
     if 'client_email' not in session:
         return render_template('client_login_reg.html')
-    session['buying'].append(product_id)
+    session['buying'] += [product_id]
+    print(f"session has {len(session['buying'])} items in it")
     return render_template('cart.html')
 
 
