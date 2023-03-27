@@ -122,6 +122,7 @@ class Employee:
                     'first_name': result['first_name'],
                     'last_name': result['last_name'],
                     'email': result['email'],
+                    'password': result['password'],
                     'created_at': result['created_at'],
                     'updated_at': result['updated_at']
                 }

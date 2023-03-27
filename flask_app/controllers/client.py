@@ -67,10 +67,48 @@ def check_for_client_in_database():
     """
     if not Client.validate_client_login(request.form):
         return redirect('/clients/register_form')
-    
+    if request.form['password'] == 'password123456':
+        this_client = {
+            'email': request.form['email']
+        }
+        client = Client.get_client_by_email(this_client)
+        return redirect(f'/clients/update_password_form/{client.id}')
     session['client_first_name'] = request.form['first_name']
     session['client_email'] = request.form['email']
     return redirect('/clients')
+
+
+@app.route('/clients/update_password_form/<int:id>')
+def update_password_form(id):
+    this_client = {
+        'client_id': id
+    }
+    client = Client.get_client_by_id(this_client)
+    return render_template("client_update_password.html", client=client)
+
+
+@app.route('/client/update/<int:id>', methods=['POST'])
+def update_password(id):
+    if not Client.validate_client_password_update(request.form):
+        return redirect(f'/clients/{id}')
+    
+    this_client = {
+        'client_id': id,
+        'password': bcrypt.generate_password_hash(request.form['password'])
+    }
+    
+    this_id = {
+        'client_id': id
+    }
+    
+    current_client = Client.get_client_by_id(this_id)
+    print("logged in client ", current_client)
+    session['client_first_name'] = current_client.first_name
+    session['client_email'] = current_client.email
+    
+    Client.change_client_passwords(this_client)
+    return redirect('/clients')
+    
 
 
 @app.route('/clients/register_form')
@@ -142,7 +180,8 @@ def add_client():
         'first_name': request.form['first_name'],
         'last_name': request.form['last_name'],
         'email': request.form['email'],
-        'employee_email': session['email']
+        'employee_email': session['email'],
+        'password': bcrypt.generate_password_hash('password123456')
     }
     Client.create_client(new_client)
     flash('Client added successfully', 'client_added')

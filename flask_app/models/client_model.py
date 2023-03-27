@@ -163,9 +163,9 @@ class Client:
         :param data: a dictionary of the data we want to insert into the database
         :return: The results of the query.
         """
-        query = "UPDATE clients SET password = %(password)s WHERE email = %(email)s"
+        query = "UPDATE clients SET password = %(password)s WHERE id = %(client_id)s"
         results = connectToMySQL(DATABASE).query_db(query, data)
-        return cls(results)
+        return results
     
     
     @classmethod
@@ -357,6 +357,32 @@ class Client:
             print(check)
             if data['password'] != check.password:
                 flash('Password is incorrect', "check_client_login")
+                is_valid = False
+        return is_valid
+    
+    
+    @staticmethod
+    def validate_client_password_update(data):
+        regex = re.compile('[@_!#$%^&*()<>?/\|}{~:]')
+        is_valid = True
+        print(data['password'])
+        if len(data['password']) < 8:
+            flash('Password must be at least 8 characters', "new_client")
+            is_valid = False
+        else:
+            if (regex.search(data['password']) == None):
+                flash('Password must contain at least one special character', "new_client")
+                is_valid = False
+            if (re.search('[0-9]', data['password']) == None):
+                # password does not contain digits
+                flash('Password does not contain at least one number', "new_client")
+                is_valid = False
+            if (re.search('[A-Z]', data['password']) == None):
+                # password does not contain uppercase letters
+                flash('Password does not contain at least one uppercase letter', "new_client")
+                is_valid = False
+            if (data['password']!= data['password_confirmation']):
+                flash('Passwords do not match, please try again', "new_client")
                 is_valid = False
         return is_valid
             
