@@ -66,10 +66,15 @@ def check_for_client_in_database():
     :return: a redirect to the clients page.
     """
     if not Client.validate_client_login(request.form):
-        return redirect('/clients/options')
+        return redirect('/clients/register_form')
     session['client_first_name'] = request.form['first_name']
     session['client_email'] = request.form['email']
     return redirect('/clients')
+
+
+@app.route('/clients/register_form')
+def client_reg_form():
+    return render_template("client_login_reg.html")
 
 
 @app.route('/clients/register', methods=['GET', 'POST'])
@@ -80,17 +85,19 @@ def register_client():
     :return: the cart.html template.
     """
     if 'client_email' not in session:
-        if not Client.validate_client(request.form):
-            return redirect('/clients/options')
+        if not Client.client_reg_validate_client(request.form):
+            return redirect('/clients/register_form')
         
         # create a new client
         new_client = {
             'first_name': request.form['first_name'],
             'last_name': request.form['last_name'],
-            'email': request.form['email']
+            'email': request.form['email'],
+            'password': request.form['password'],
         }
-        c = Client.create_client(new_client)
-        print(c)
+        Client.create_client(new_client)
+        c = Client.get_client_by_email(new_client)
+        print("new client is ", Client.get_client_by_email(new_client))
         flash('You have successfully registered!', 'client_success')
         
         # store the new client in the session
@@ -126,12 +133,13 @@ def add_client():
     employee who created the client
     :return: The redirect is returning the employee's home page.
     """
-    if not Client.validate_client(request.form):
+    if not Client.employee_validate_client(request.form):
         return redirect('/employee/get_clients')
     new_client = {
         'first_name': request.form['first_name'],
         'last_name': request.form['last_name'],
-        'email': request.form['email']
+        'email': request.form['email'],
+        'employee_email': session['email']
     }
     Client.create_client(new_client)
     flash('Client added successfully', 'client_added')

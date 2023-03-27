@@ -24,14 +24,18 @@
                 {{ message }}
             </div>
             {% endfor %}
+            
             <div class="nes-field">
                 <label for="first_name">First Name</label>
                 <input type="text" name="first_name" id="first_name" class="nes-input">
             </div>
+            
             <label for="last_name">Last Name</label>
             <input type="text" name="last_name">
+            
             <label for="email">Email</label>
             <input type="text" name="email">
+            
             <!-- This is a Jinja2 template. It is a for loop that iterates through the list of messages that are
             flashed. -->
             {% for message in get_flashed_messages(category_filter = ['registration']) %}
@@ -39,6 +43,7 @@
                     {{ message }}
                 </div>
             {% endfor %}
+            
             <button type="submit" class="btn btn-success">Add Employee to Rooster</button>
         </form>
 
@@ -67,18 +72,23 @@
                 <div class="modal fade" id="{{employee.first_name}}{{employee.id}}{{employee.last_name}}" tabindex="-1" aria-labelledby="editEmployeeModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered">
                         <div class="modal-content">
+                            
                             <div class="modal-header">
                                 <h1 class="modal-title fs-5" id="editEmployeeModalLabel">Edit {{employee.first_name}} {{employee.last_name}}'s Details</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
+                            
                             <div class="modal-body d-flex flex-column">
                                 <form action="/admin/edit_employee/{{employee.id}}" method="POST" class="form-horizontal">
                                     <label for="first_name">First Name</label>
                                     <input type="text" name="first_name" value="{{employee.first_name}}">
+                                    
                                     <label for="last_name">Last Name</label>
                                     <input type="text" name="last_name" value="{{employee.last_name}}">
+                                    
                                     <label for="email">Email</label>
                                     <input type="text" name="email" value="{{employee.email}}">
+                                    
                                     <button type="submit" class="btn btn-primary">Save changes</button>
                                 </form>
                             </div>
@@ -104,12 +114,16 @@
                 {{ message }}
             </div>
             {% endfor %}
+            
             <label for="name">Name</label>
             <input type="text" name="name">
+            
             <label for="category">Category</label>
             <input type="text" name="category">
+            
             <label for="price">Price</label>
             <input type="text" name="price">
+            
             <!-- This is a Jinja2 template. It is a for loop that iterates through the list of messages that are
             flashed. -->
             {% for message in get_flashed_messages(category_filter = ['product_creation']) %}
@@ -117,6 +131,7 @@
                     {{ message }}
                 </div>
             {% endfor %}
+            
             <button type="submit" class="btn btn-primary">Add Service/Product</button>
         </form>
 
@@ -133,8 +148,8 @@
                 <tr class="">
                     <td>{{item.name}}</td>
                     <td>{{item.category}}</td>
-                    <td>{{item.price}}</td>
-                    <td>{{item.discount}}</td>
+                    <td>{{'${:,.2f}'.format(item.price)}}</td>
+                    <td>{{'{:.2%}'.format(item.discount)}}</td>
                     <td class="d-flex gap-2">
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#PRODUCT{{item.id}}">
                             Edit
@@ -154,12 +169,16 @@
                                 <form action="/admin/edit_product/{{item.id}}" method="POST" class="form-horizontal">
                                     <label for="name">Name</label>
                                     <input type="text" name="name" value="{{item.name}}">
+                                    
                                     <label for="category">Category</label>
                                     <input type="text" name="category" value="{{item.category}}">
+                                    
                                     <label for="price">Price</label>
                                     <input type="text" name="price" value="{{item.price}}">
+                                    
                                     <label for="discount">Discount</label>
                                     <input type="text" name="discount" value="{{item.discount}}">
+                                    
                                     <button type="submit" class="btn btn-primary">Save changes</button>
                                 </form>
                             </div>

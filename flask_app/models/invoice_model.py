@@ -7,10 +7,8 @@ class Invoice:
         self.id = data['id']
         self.amount = data['amount']
         self.fee = data['fee']
-        self.tax = data['tax']
         self.date_due = data['date_due']
         self.date_paid = data['date_paid']
-        self.status = data['status']
         self.client_email = data['client_email']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
@@ -75,7 +73,7 @@ class Invoice:
         :param data: a dictionary of the data to be inserted into the database
         :return: The results of the query.
         """
-        query = "INSERT INTO invoices (amount, fee, tax, date_due, date_paid, status, client_id) VALUES (%(amount)s, %(fee)s, %(tax)s, %(date_due)s, %(date_paid)s, %(status)s, %(client_id)s"
+        query = "INSERT INTO invoices (amount, tax, date_due, date_paid, client_id) VALUES (%(amount)s, %(tax)s, %(date_due)s, %(date_paid)s, %(client_id)s"
         results = connectToMySQL(DATABASE).query_db(query, data)
         if len(results) > 0:
             return Invoice(results[0])
@@ -91,7 +89,7 @@ class Invoice:
         :param data: a dictionary of the data to be updated
         :return: The results of the query.
         """
-        query = "UPDATE invoices SET amount = %(amount)s, fee = %(fee)s, tax = %(tax)s, date_due = %(date_due)s, date_paid = %(date_paid)s, status = %(status)s WHERE id = %(invoice_id)s"
+        query = "UPDATE invoices SET amount = %(amount)s, tax = %(tax)s, date_due = %(date_due)s, date_paid = %(date_paid)s, WHERE id = %(invoice_id)s"
         results = connectToMySQL(DATABASE).query_db(query, data)
         if len(results) > 0:
             return Invoice(results[0])

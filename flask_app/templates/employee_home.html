@@ -15,6 +15,7 @@
                 <div class="d-flex">
                     <a href="/employee" class="btn btn-secondary">Logout</a>
                 </div>
+                
                 <h1>Welcome, {{session['first_name']}}</h1>
 
                 <form action="/employee/add_client" method="post" class="form-horizontal">
@@ -29,10 +30,13 @@
 
                     <label for="first_name">First Name</label>
                     <input type="text" name="first_name">
+                    
                     <label for="last_name">Last Name</label>
                     <input type="text" name="last_name">
+                    
                     <label for="email">Email</label>
                     <input type="text" name="email">
+                    
                     <label for="email_confirmation">Re-type Email</label>
                     <input type="text" name="email_confirmation">
 

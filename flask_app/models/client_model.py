@@ -184,7 +184,7 @@ class Client:
         
         
     @staticmethod
-    def validate_client(data):
+    def employee_validate_client(data):
         """
         This function checks to see if the data entered by the user is valid. If it is, it returns True,
         otherwise it returns False
@@ -229,7 +229,70 @@ class Client:
             else:
                 flash('Email contains special characters', "new_client")
                 is_valid = False
+
+        
+        return is_valid
+    
+    
+    @staticmethod
+    def client_reg_validate_client(data):
+        regex = re.compile('[@_!#$%^&*()<>?/\|}{~:]')
+        
+        is_valid = True
+        
+        if (regex.search(data['first_name']) != None or len(data['first_name']) < 2):
+            # first name contains special characters
+            flash('First name contains special characters or does not meet minimum length requirements.', "new_client")
+            is_valid = False
+        
+        if (regex.search(data['last_name'])!= None or len(data['last_name']) < 2):
+            # last name contains special characters
+            flash('Last name contains special characters or does not meet minimum length requirements.', "new_client")
+            is_valid = False
+            
+        if len(data['password']) < 8:
+            flash('Password must be at least 8 characters', "new_client")
+            is_valid = False
+        else:
+            if (regex.search(data['password']) == None):
+                flash('Password must contain at least one special character', "new_client")
+                is_valid = False
+            if (re.search('[0-9]', data['password']) == None):
+                # password does not contain digits
+                flash('Password does not contain at least one number', "new_client")
+                is_valid = False
+            if (re.search('[A-Z]', data['password']) == None):
+                # password does not contain uppercase letters
+                flash('Password does not contain at least one uppercase letter', "new_client")
+                is_valid = False
+            if (data['password']!= data['password_confirmation']):
+                flash('Passwords do not match, please try again', "new_client")
+                is_valid = False
+        
+        regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
+        
+        if len(data['email']) == 0:
+            flash('Email address cannot be empty.', "new_client")
+            is_valid = False
+        else:
+            if (re.fullmatch(regex, data['email'])):
+                if not data['email'] == data['email_confirmation']:
+                    flash('Emails do not match', "new_client")
+                    is_valid = False
+                # email is valid
+                # need to check if the email is already in use
+                this_user = {
+                    'email': data['email']
+                }
+                results = Client.check_database(this_user)
                 
+                if results:
+                    flash('Email is already in use, please use a different email', "new_client")
+                    is_valid = False
+            else:
+                flash('Email contains special characters', "new_client")
+                is_valid = False
+                        
         if len(data['employee_email']) == 0:
             flash('Employee email address cannot be empty.', "new_client")
             is_valid = False
@@ -246,7 +309,8 @@ class Client:
             else:
                 flash('Employee email contains special characters', "new_client")
                 is_valid = False
-        
+                
+
         return is_valid
     
     
