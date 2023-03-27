@@ -10,3 +10,9 @@ class Payment_Method:
         self.CVC = data['CVC']
         self.clients_id = data['clients_id']
         self.clients_email = data['clients_email']
+        
+    @classmethod
+    def create_payment_method(cls, data):
+        query = "IINSERT INTO payment_method (card_number, expiration_date, CVC, clients_id, clients_email) VALUES (%(card_number)s, %(expiration_date)s, %(CVC)s, %(clients_id)s, %(clients_email)s"
+        results = connectToMySQL(DATABASE).query_db(query, data)
+        return results

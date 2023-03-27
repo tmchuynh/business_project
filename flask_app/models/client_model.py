@@ -79,7 +79,7 @@ class Client:
         :return: A list of dictionaries
         """
         query = """SELECT * FROM product_invoices
-        INNER JOIN invoices ON product_invoices.invoices_clients_email = invoices.clients_email
+        INNER JOIN invoices ON product_invoices.clients_email = invoices.clients_email
         INNER JOIN clients ON invoices.clients_email = clients.email
         WHERE clients.id = %(client_id)s"""
         
