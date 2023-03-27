@@ -154,6 +154,21 @@ class Client:
     
     
     @classmethod
+    def change_client_passwords(cls, data):
+        """
+        This function takes in a dictionary of data, and updates the password of the client with the email
+        that matches the email in the dictionary
+        
+        :param cls: the class name
+        :param data: a dictionary of the data we want to insert into the database
+        :return: The results of the query.
+        """
+        query = "UPDATE clients SET password = %(password)s WHERE email = %(email)s"
+        results = connectToMySQL(DATABASE).query_db(query, data)
+        return cls(results)
+    
+    
+    @classmethod
     def delete_client(cls, data):
         """
         This function deletes a client from the database
@@ -327,16 +342,21 @@ class Client:
         this_user = {
             'email': data['email']
         }
-        if not Client.check_database(this_user):
+        if len(data['email']) == 0:
+            flash('Please enter your email address', "check_client_login")
             is_valid = False
-            flash('Email is not in use, please use a different email', "check_client_login")
-        check = Client.get_client_by_email(this_user)
-        print(check)
-        if data['password'] != check.password:
-            flash('Password is incorrect', "check_client_login")
+        else:
+            if not Client.check_database(this_user):
+                is_valid = False
+                flash('Email is not in use, please use a different email', "check_client_login")
+        if len(data['password']) < 1:
+            flash('Be sure to enter a password', "check_client_login")
             is_valid = False
-        if len(data['first_name']) < 1:
-            flash('First name cannot be empty', "check_client_login")
-            is_valid = False
+        else:
+            check = Client.get_client_by_email(this_user)
+            print(check)
+            if data['password'] != check.password:
+                flash('Password is incorrect', "check_client_login")
+                is_valid = False
         return is_valid
             
