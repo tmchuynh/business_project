@@ -67,6 +67,7 @@ def check_for_client_in_database():
     """
     if not Client.validate_client_login(request.form):
         return redirect('/clients/register_form')
+    
     session['client_first_name'] = request.form['first_name']
     session['client_email'] = request.form['email']
     return redirect('/clients')
@@ -135,6 +136,8 @@ def add_client():
     """
     if not Client.employee_validate_client(request.form):
         return redirect('/employee/get_clients')
+    
+    # when employee manually enters in a client, the temp password will be 'password123456'
     new_client = {
         'first_name': request.form['first_name'],
         'last_name': request.form['last_name'],

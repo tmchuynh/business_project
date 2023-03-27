@@ -13,6 +13,7 @@ class Client:
         self.first_name = data['first_name']
         self.last_name = data['last_name']
         self.email = data['email']
+        self.password = data['password']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
         self.products = None
@@ -329,6 +330,11 @@ class Client:
         if not Client.check_database(this_user):
             is_valid = False
             flash('Email is not in use, please use a different email', "check_client_login")
+        check = Client.get_client_by_email(this_user)
+        print(check)
+        if data['password'] != check.password:
+            flash('Password is incorrect', "check_client_login")
+            is_valid = False
         if len(data['first_name']) < 1:
             flash('First name cannot be empty', "check_client_login")
             is_valid = False
