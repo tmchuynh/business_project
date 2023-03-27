@@ -8,6 +8,13 @@ from flask_app.models.product_model import Product
 
 @app.route('/invoice')
 def show_invoice():
+    """
+    It takes the list of products in the session, and then it loops through each product, and then it
+    gets the product from the database, and then it adds the price of the product to the total price,
+    and then it adds the product to a list of products, and then it renders the checkout page with the
+    list of products and the total price.
+    :return: A list of products and the total price
+    """
     list_of_products = []
     total_price = 0
     

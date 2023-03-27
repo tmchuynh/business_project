@@ -1,6 +1,10 @@
 from flask_app.config.mysqlconnection import connectToMySQL
 from flask_app import DATABASE
 from flask import flash
+from flask_app import app
+
+from flask_bcrypt import Bcrypt
+bcrypt = Bcrypt(app)
 
 from flask_app.models import product_model
 from flask_app.models import employee_model
@@ -356,7 +360,9 @@ class Client:
         else:
             check = Client.get_client_by_email(this_user)
             print(check)
-            if data['password'] != check.password:
+            
+            if not bcrypt.check_password_hash(check.password, data['password']):
+                print("Password hash false", data['password'])
                 flash('Password is incorrect', "check_client_login")
                 is_valid = False
         return is_valid
@@ -364,6 +370,15 @@ class Client:
     
     @staticmethod
     def validate_client_password_update(data):
+        """
+        The function takes in a dictionary of data, and checks to see if the password is at least 8
+        characters, contains at least one special character, one number, and one uppercase letter, and if
+        the password and password confirmation match. If any of these conditions are not met, the function
+        returns False, and if all conditions are met, the function returns True
+        
+        :param data: the data that is being validated
+        :return: is_valid
+        """
         regex = re.compile('[@_!#$%^&*()<>?/\|}{~:]')
         is_valid = True
         print(data['password'])

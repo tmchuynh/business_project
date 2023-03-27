@@ -72,9 +72,11 @@ def check_for_client_in_database():
             'email': request.form['email']
         }
         client = Client.get_client_by_email(this_client)
+        session['client_id'] = client.id
         return redirect(f'/clients/update_password_form/{client.id}')
     session['client_first_name'] = request.form['first_name']
     session['client_email'] = request.form['email']
+
     return redirect('/clients')
 
 
@@ -84,6 +86,7 @@ def update_password_form(id):
         'client_id': id
     }
     client = Client.get_client_by_id(this_client)
+    print("new password", client.password)
     return render_template("client_update_password.html", client=client)
 
 
@@ -105,6 +108,7 @@ def update_password(id):
     print("logged in client ", current_client)
     session['client_first_name'] = current_client.first_name
     session['client_email'] = current_client.email
+    session['client_id'] = current_client.id
     
     Client.change_client_passwords(this_client)
     return redirect('/clients')
@@ -142,6 +146,7 @@ def register_client():
         # store the new client in the session
         session['client_first_name'] = request.form['first_name']
         session['client_email'] = new_client['email']
+        session['client_id'] = new_client['id']
         print("logged in client ", session['client_email'])
         
         # create the relationship between the client and the employee
