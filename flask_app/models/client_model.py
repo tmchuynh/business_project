@@ -16,6 +16,7 @@ class Client:
         self.password = data['password']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
+        self.payment_id = data['payment_id']
         self.products = None
         
         
