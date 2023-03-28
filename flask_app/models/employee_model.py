@@ -184,7 +184,21 @@ class Employee:
         :param data: a dictionary of the data you want to insert into the database
         :return: The results of the query.
         """
-        query = "INSERT INTO client_relationships (client_email, employee_email) VALUES (%(client_email)s, %(employee_email)s"
+        query = "INSERT INTO client_relationships (client_email, employee_email) VALUES (%(client_email)s, %(employee_email)s)"
+        results = connectToMySQL(DATABASE).query_db(query, data)
+        return results
+    
+    
+    @classmethod
+    def create_product_team(cls, data):
+        """
+        This function creates a new product team by inserting a new row into the product_teams table
+        
+        :param cls: the class that this method belongs to
+        :param data: {
+        :return: The results of the query.
+        """
+        query = "INSERT INTO product_teams (employee_id, employee_email, product_id, invoice_id) VALUES(%(employee_id)s, %(employee_email)s, %(product_id)s, %(invoice_id)s)"
         results = connectToMySQL(DATABASE).query_db(query, data)
         return results
     

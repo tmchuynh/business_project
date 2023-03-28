@@ -31,6 +31,7 @@ class Product:
             list_of_products.append(cls(result))
         return list_of_products
     
+    
     @classmethod
     def get_product_by_id(cls, data):
         """

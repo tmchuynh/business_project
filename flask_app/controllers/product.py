@@ -23,4 +23,4 @@ def display_client_products(id):
     }
     print("current client ", current_client)
     list_of_products = Client.get_product_by_client(this_client)
-    return render_template('client_products.html', list_of_products=list_of_products.products, current_client=current_client)
+    return render_template('client_products.html', list_of_products=list_of_products, current_client=current_client)

@@ -5,6 +5,7 @@ bcrypt = Bcrypt(app)
 from flask_app.models.employee_model import Employee
 from flask_app.models.product_model import Product
 from flask_app.models.client_model import Client
+from flask_app.models.invoice_model import Invoice
 import random, string
 
 @app.route('/admin')
@@ -16,7 +17,8 @@ def admin():
     list_of_employees = Employee.get_all_employees()
     list_of_products = Product.get_all_products()
     list_of_clients = Client.get_all_clients()
-    return render_template('admin.html', list_of_employees=list_of_employees, list_of_products=list_of_products, list_of_clients=list_of_clients)
+    list_of_current_products = Invoice.get_current_products()
+    return render_template('admin.html', list_of_employees=list_of_employees, list_of_products=list_of_products, list_of_clients=list_of_clients, list_of_current_products=list_of_current_products)
 
 
 @app.route('/admin/add_employee', methods=['POST'])
@@ -66,6 +68,24 @@ def edit_employee(employee_id):
     Employee.admin_update_employee(this_employee)
     flash('Employee updated successfully', 'employee_updated')
     return redirect('/admin')
+
+
+@app.route('/admin/assign_product_team/<int:product_id>/<int:invoice_id>', methods=['POST'])
+def assign_product_team(product_id, invoice_id):
+    print(invoice_id)
+    this_employee = {
+        'employee_id': request.form['employee_id']
+    }
+    current_employee = Employee.get_employee_by_id(this_employee)
+    product_team = {
+        'employee_id': int(request.form['employee_id']),
+        'employee_email': current_employee.email,
+        'product_id': product_id,
+        'invoice_id': invoice_id
+    }
+    Employee.create_product_team(product_team)
+    return redirect('/admin')
+    
 
 
 @app.route('/admin/delete_employee/<int:employee_id>')

@@ -2,6 +2,10 @@ from flask_app.config.mysqlconnection import connectToMySQL
 from flask_app import DATABASE
 from flask import flash
 
+from flask_app.models import employee_model
+from flask_app.models import client_model
+from flask_app.models import product_model
+
 class Invoice:
     def __init__(self, data):
         self.id = data['id']
@@ -11,6 +15,8 @@ class Invoice:
         self.clients_email = data['clients_email']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
+        self.product_team = None
+        self.products = None
         
         
     @classmethod
@@ -76,6 +82,25 @@ class Invoice:
             list_of_invoices.append(Invoice(result))
         return list_of_invoices
         
+    
+    @classmethod
+    def get_current_products(cls):
+        query = """SELECT product_invoices.*, products.*, product_teams.*, invoices.*
+        FROM products
+        LEFT JOIN product_invoices ON product_invoices.product_id = products.id
+        LEFT JOIN product_teams ON product_invoices.product_id = product_teams.product_id
+        LEFT JOIN invoices ON invoices.id = product_invoices.invoice_id;
+        """
+        results = connectToMySQL(DATABASE).query_db(query)
+
+        if results:
+            invoices = []
+            for result in results:
+                print(result)
+                invoices.append(result)
+            return invoices
+        return []       
+    
         
     @classmethod
     def create_invoice(cls, data):
