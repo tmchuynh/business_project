@@ -6,12 +6,12 @@ class Invoice:
     def __init__(self, data):
         self.id = data['id']
         self.amount = data['amount']
-        self.fee = data['fee']
         self.date_due = data['date_due']
         self.date_paid = data['date_paid']
-        self.client_email = data['client_email']
+        self.clients_email = data['clients_email']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
+        
         
     @classmethod
     def get_invoice_by_client_id(cls, data):
@@ -29,6 +29,17 @@ class Invoice:
         else:
             return None
         
+        
+    @classmethod
+    def get_invoice_by_id(cls, data):
+        query = "SELECT * FROM invoices WHERE id = %(id)s"
+        results = connectToMySQL(DATABASE).query_db(query, data)
+        if len(results) > 0:
+            return Invoice(results[0])
+        else:
+            return None
+        
+        
     @classmethod
     def get_invoice_by_date_due(cls, data):
         """
@@ -45,6 +56,7 @@ class Invoice:
             return Invoice(results[0])
         else:
             return None
+        
         
     @classmethod
     def get_client_invoices(cls, data):
@@ -64,6 +76,7 @@ class Invoice:
             list_of_invoices.append(Invoice(result))
         return list_of_invoices
         
+        
     @classmethod
     def create_invoice(cls, data):
         """
@@ -73,13 +86,18 @@ class Invoice:
         :param data: a dictionary of the data to be inserted into the database
         :return: The results of the query.
         """
-        query = "INSERT INTO invoices (amount, tax, date_due, date_paid, client_id) VALUES (%(amount)s, %(tax)s, %(date_due)s, %(date_paid)s, %(client_id)s"
+        query = "INSERT INTO invoices (amount, tax, date_due, date_paid, clients_email) VALUES (%(amount)s, %(tax)s, %(date_due)s, %(date_paid)s, %(clients_email)s)"
         results = connectToMySQL(DATABASE).query_db(query, data)
-        if len(results) > 0:
-            return Invoice(results[0])
-        else:
-            return None
+        return results
         
+    
+    @classmethod
+    def create_invoice_product_relationship(cls, data):
+        query = "INSERT INTO product_invoices (invoice_id, date_due, clients_email, product_id) VALUES (%(invoice_id)s, %(date_due)s, %(clients_email)s, %(product_id)s)"
+        results = connectToMySQL(DATABASE).query_db(query, data)
+        return results
+    
+    
     @classmethod
     def update_invoice(cls, data):
         """
@@ -96,6 +114,7 @@ class Invoice:
         else:
             return None
     
+    
     @classmethod
     def delete_invoice(cls, data):
         """
@@ -111,6 +130,7 @@ class Invoice:
             return Invoice(results[0])
         else:
             return None
+        
         
     @classmethod
     def add_product_to_invoice(cls, data):
