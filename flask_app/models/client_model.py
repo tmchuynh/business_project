@@ -82,9 +82,9 @@ class Client:
         :return: A list of dictionaries
         """
         query = """SELECT * FROM product_invoices
-        INNER JOIN invoices ON product_invoices.clients_email = invoices.clients_email
-        INNER JOIN clients ON invoices.clients_email = clients.email
-        WHERE clients.id = %(client_id)s"""
+        LEFT JOIN products ON product_invoices.product_id = products.id
+        LEFT JOIN clients ON product_invoices.clients_email = clients.email
+        WHERE product_invoices.clients_email = %(client_email)s"""
         
         results = connectToMySQL(DATABASE).query_db(query, data)
         
@@ -93,6 +93,8 @@ class Client:
             client.products = []
             
             for result in results:
+                
+                print(result)
                 
                 if not result['email']:
                     break
