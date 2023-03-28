@@ -34,8 +34,8 @@ def add_employee():
     print("temp password ", temp_password)
     
     new_employee = {
-        'first_name': request.form['first_name'],
-        'last_name': request.form['last_name'],
+        'first_name': request.form['first_name'].capitalize(),
+        'last_name': request.form['last_name'].capitalize(),
         'email': request.form['email'],
         'password': bcrypt.generate_password_hash(temp_password).decode('utf-8'),
         'temp_password': temp_password
@@ -59,8 +59,8 @@ def edit_employee(employee_id):
         return redirect(f'/admin')
     this_employee = {
         'employee_id': employee_id,
-        'first_name': request.form['first_name'],
-        'last_name': request.form['last_name'],
+        'first_name': request.form['first_name'].capitalize(),
+        'last_name': request.form['last_name'].capitalize(),
         'email': request.form['email']
     }
     Employee.admin_update_employee(this_employee)
@@ -94,8 +94,8 @@ def add_product():
         return redirect('/admin')
     
     new_product = {
-        'name': request.form['name'],
-        'category': request.form['category'],
+        'name': request.form['name'].capitalize(),
+        'category': request.form['category'].upper(),
         'price': request.form['price']
     }
     Product.create_product(new_product)
@@ -115,10 +115,10 @@ def edit_product(product_id):
         return redirect('/admin')
     this_product = {
         'product_id': product_id,
-        'name': request.form['name'],
+        'name': request.form['name'].capitalize(),
         'price': request.form['price'],
         'discount': request.form['discount'],
-        'category': request.form['category']
+        'category': request.form['category'].upper()
     }
     Product.update_product(this_product)
     flash('Product updated successfully', 'product_updated')

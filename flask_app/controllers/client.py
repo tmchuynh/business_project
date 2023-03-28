@@ -133,8 +133,8 @@ def register_client():
         
         # create a new client
         new_client = {
-            'first_name': request.form['first_name'],
-            'last_name': request.form['last_name'],
+            'first_name': request.form['first_name'].capitalize(),
+            'last_name': request.form['last_name'].capitalize(),
             'email': request.form['email'],
             'password': request.form['password'],
         }
@@ -144,7 +144,7 @@ def register_client():
         flash('You have successfully registered!', 'client_success')
         
         # store the new client in the session
-        session['client_first_name'] = request.form['first_name']
+        session['client_first_name'] = request.form['first_name'].capitalize()
         session['client_email'] = new_client['email']
         session['client_id'] = new_client['id']
         print("logged in client ", session['client_email'])
@@ -182,8 +182,8 @@ def add_client():
     
     # when employee manually enters in a client, the temp password will be 'password123456'
     new_client = {
-        'first_name': request.form['first_name'],
-        'last_name': request.form['last_name'],
+        'first_name': request.form['first_name'].capitalize(),
+        'last_name': request.form['last_name'].capitalize(),
         'email': request.form['email'],
         'employee_email': session['email'],
         'password': bcrypt.generate_password_hash('password123456')

@@ -16,7 +16,7 @@ class Payment_Method:
     @classmethod
     def create_payment_method(cls, data):
         # need to fix the query to insert payment method
-        query = "INSERT INTO payment_methods (card_number, expiration_date, CVC, clients_id, clients_email) SELECT %(card_number)s, %(expiration_date)s, %(CVC)s, %(clients_id)s, %(clients_email)s FROM clients WHERE id = %(clients_id)s and email = %(clients_email)s"
+        query = "INSERT INTO payment_methods (card_number, expiration_date, CVC, clients_id, clients_email) VALUES (%(card_number)s, %(expiration_date)s, %(CVC)s, %(clients_id)s, %(clients_email)s)"
         results = connectToMySQL(DATABASE).query_db(query, data)
         return results
     
@@ -30,7 +30,7 @@ class Payment_Method:
         """
         is_valid = True
         
-        pattern = '^[973][0-9]{15}|[973][0-9]{3}-[0-9]{4}-[0-9]{4}-[0-9]{4}$'
+        pattern = '^[973][0-9]{16}|[973][0-9]{3}-[0-9]{4}-[0-9]{4}-[0-9]{4}$'
         
         # card_number:
         # must contain exactly 16 digits

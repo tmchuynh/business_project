@@ -25,16 +25,14 @@
             </div>
             {% endfor %}
             
-            <div class="nes-field">
-                <label for="first_name">First Name</label>
-                <input type="text" name="first_name" id="first_name" class="nes-input">
-            </div>
+            <label for="first_name">First Name</label>
+            <input type="text" name="first_name" id="first_name" class="nes-input">
             
             <label for="last_name">Last Name</label>
-            <input type="text" name="last_name">
+            <input type="text" name="last_name" class="nes-input">
             
             <label for="email">Email</label>
-            <input type="text" name="email">
+            <input type="text" name="email" class="nes-input">
             
             <!-- This is a Jinja2 template. It is a for loop that iterates through the list of messages that are
             flashed. -->
@@ -109,20 +107,20 @@
         <form action="/admin/add_product" method="POST" class="form-horizontal">
             <!-- This is a Jinja2 template. It is a for loop that iterates through the list of messages that are
             flashed. -->
-            {% for message in get_flashed_messages(category_filter = ['product_added']) %}
+            {% for message in get_flashed_messages(category_filter = ['product_added', 'product_updated']) %}
             <div class="alert alert-danger">
                 {{ message }}
             </div>
             {% endfor %}
             
             <label for="name">Name</label>
-            <input type="text" name="name">
+            <input type="text" name="name" class="nes-input">
             
             <label for="category">Category</label>
-            <input type="text" name="category">
+            <input type="text" name="category" class="nes-input">
             
             <label for="price">Price</label>
-            <input type="text" name="price">
+            <input type="text" name="price" class="nes-input">
             
             <!-- This is a Jinja2 template. It is a for loop that iterates through the list of messages that are
             flashed. -->
