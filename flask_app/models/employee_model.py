@@ -123,7 +123,6 @@ class Employee:
                     'last_name': result['last_name'],
                     'email': result['email'],
                     'password': result['password'],
-                    'payment_id': result['payment_id'],
                     'created_at': result['created_at'],
                     'updated_at': result['updated_at']
                 }

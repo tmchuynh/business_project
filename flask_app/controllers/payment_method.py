@@ -18,12 +18,17 @@ def payment_method():
     current_client = Client.get_client_by_email(this_email)
     if not Payment_Method.validate_payment_method(request.form):
         return redirect('/invoice')
-    new_card = {
-        'card_number': int(request.form['card_number']),
-        'expiration_date': request.form['expiration_date'],
-        'CVC': int(request.form['CVC']),
-        'clients_email': session['client_email'],
-        'clients_id': current_client.id
+
+    client_email = {
+        'email': session['client_email']
     }
-    Payment_Method.create_payment_method(new_card)
+    if Client.check_database(client_email):
+        new_card = {
+            'card_number': int(request.form['card_number']),
+            'expiration_date': request.form['expiration_date'],
+            'CVC': int(request.form['CVC']),
+            'clients_email': session['client_email'],
+            'clients_id': current_client.id
+        }
+        Payment_Method.create_payment_method(new_card)
     return redirect('/payment_method')

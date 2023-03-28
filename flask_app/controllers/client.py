@@ -93,7 +93,7 @@ def update_password_form(id):
 @app.route('/client/update/<int:id>', methods=['POST'])
 def update_password(id):
     if not Client.validate_client_password_update(request.form):
-        return redirect(f'/clients/{id}')
+        return redirect(f'/clients/update_password_form/{id}')
     
     this_client = {
         'client_id': id,

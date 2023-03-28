@@ -20,7 +20,6 @@ class Client:
         self.password = data['password']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
-        self.payment_id = data['payment_id']
         self.products = None
         
         
@@ -359,9 +358,10 @@ class Client:
             is_valid = False
         else:
             check = Client.get_client_by_email(this_user)
-            print(check)
+            print(check.password, "password database")
+            print(data['password'], "password")
             
-            if not bcrypt.check_password_hash(check.password, data['password']):
+            if check.password != data['password']:
                 print("Password hash false", data['password'])
                 flash('Password is incorrect', "check_client_login")
                 is_valid = False
@@ -383,22 +383,22 @@ class Client:
         is_valid = True
         print(data['password'])
         if len(data['password']) < 8:
-            flash('Password must be at least 8 characters', "new_client")
+            flash('Password must be at least 8 characters', "client_reg")
             is_valid = False
         else:
             if (regex.search(data['password']) == None):
-                flash('Password must contain at least one special character', "new_client")
+                flash('Password must contain at least one special character', "client_reg")
                 is_valid = False
             if (re.search('[0-9]', data['password']) == None):
                 # password does not contain digits
-                flash('Password does not contain at least one number', "new_client")
+                flash('Password does not contain at least one number', "client_reg")
                 is_valid = False
             if (re.search('[A-Z]', data['password']) == None):
                 # password does not contain uppercase letters
-                flash('Password does not contain at least one uppercase letter', "new_client")
+                flash('Password does not contain at least one uppercase letter', "client_reg")
                 is_valid = False
             if (data['password']!= data['password_confirmation']):
-                flash('Passwords do not match, please try again', "new_client")
+                flash('Passwords do not match, please try again', "client_reg")
                 is_valid = False
         return is_valid
             
