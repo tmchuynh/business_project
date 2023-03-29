@@ -109,7 +109,7 @@ class Invoice:
         if results:
             invoices = []
             for result in results:
-                print(result)
+                # print(result)
                 invoices.append(result)
             return invoices
         return []       

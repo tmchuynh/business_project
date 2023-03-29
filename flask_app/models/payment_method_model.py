@@ -51,17 +51,10 @@ class Payment_Method:
             flash("Credit card number is invalid", "payment_validation")
             is_valid = False
         
-        print(data['expiration_date'])
         date_obj = datetime.strptime(data['expiration_date'], '%Y-%m-%d').date()
-        print(date_obj)
-        print(date.today())
         if date_obj >= date.today():
             is_valid = False
             flash("Expiration date is invalid", "payment_validation")
-            
-        # if not bcrypt.check_password_hash(data['expiration_date'], str(date.today())):
-        #     is_valid = False
-        #     flash("Expiration date is invalid", "payment_validation")
             
         if not data['CVC'].isdigit():
             flash("Invalid CVC", "payment_validation")
