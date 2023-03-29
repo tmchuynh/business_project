@@ -12,6 +12,7 @@ class Payment_Method:
         self.CVC = data['CVC']
         self.clients_id = data['clients_id']
         self.clients_email = data['clients_email']
+        self.billing_address = data['billing_address']
         
     @classmethod
     def create_payment_method(cls, data):
@@ -23,7 +24,7 @@ class Payment_Method:
         :return: The results of the query.
         """
         # need to fix the query to insert payment method
-        query = "INSERT INTO payment_methods (card_number, expiration_date, CVC, clients_id, clients_email) VALUES (%(card_number)s, %(expiration_date)s, %(CVC)s, %(clients_id)s, %(clients_email)s)"
+        query = "INSERT INTO payment_methods (card_number, expiration_date, CVC, clients_id, clients_email, billing_address) VALUES (%(card_number)s, %(expiration_date)s, %(CVC)s, %(clients_id)s, %(clients_email)s, %(billing_address)s)"
         results = connectToMySQL(DATABASE).query_db(query, data)
         return results
     
