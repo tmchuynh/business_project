@@ -34,7 +34,9 @@ Status
 
 ## :dart: About ##
 
-Describe your project
+
+
+Started using opencommit for commit messages on March 29th, 2023
 
 ## :sparkles: Features ##
 

@@ -32,7 +32,7 @@ def add_employee():
     
     # when an employee is first created, the password is randomly generated
     temp = string.ascii_lowercase + string.ascii_uppercase + string.digits
-    temp_password = ''.join(random.choice(temp) for i in range(8))
+    temp_password = ''.join(random.choice(temp) for i in range(12))
     print("temp password ", temp_password)
     
     new_employee = {

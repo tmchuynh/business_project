@@ -24,9 +24,9 @@ def payment_method():
     }
     if Client.check_database(client_email):
         new_card = {
-            'card_number': int(request.form['card_number']),
-            'expiration_date': request.form['expiration_date'],
-            'CVC': int(request.form['CVC']),
+            'card_number': bcrypt.generate_password_hash(request.form['card_number']).decode('utf-8'),
+            'expiration_date': bcrypt.generate_password_hash(request.form['expiration_date']).decode('utf-8'),
+            'CVC': bcrypt.generate_password_hash(request.form['CVC']).decode('utf-8'),
             'clients_email': session['client_email'],
             'clients_id': current_client.id,
         }
