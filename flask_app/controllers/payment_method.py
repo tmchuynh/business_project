@@ -4,7 +4,6 @@ from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
 from flask_app.models.payment_method_model import Payment_Method
 from flask_app.models.client_model import Client
-from flask_app.models.billing_address_model import Billing_Address
 
 @app.route('/payment_method', methods=['POST'])
 def payment_method():
@@ -24,24 +23,12 @@ def payment_method():
         'email': session['client_email']
     }
     if Client.check_database(client_email):
-        this_billing_address = {
-            'address': request.form['address'],
-            'city': request.form['city'],
-            'state': request.form['state'],
-            'zip_code': request.form['zip_code']
-        }
-        Billing_Address.create_billing_address(this_billing_address)
-        this_address = {
-            'address': request.form['address']
-        }
-        address = Billing_Address.get_billing_by_address(this_address)
         new_card = {
             'card_number': int(request.form['card_number']),
             'expiration_date': request.form['expiration_date'],
             'CVC': int(request.form['CVC']),
             'clients_email': session['client_email'],
             'clients_id': current_client.id,
-            'billing_address': address.id
         }
         Payment_Method.create_payment_method(new_card)
         
