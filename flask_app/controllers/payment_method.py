@@ -31,4 +31,5 @@ def payment_method():
             'clients_id': current_client.id
         }
         Payment_Method.create_payment_method(new_card)
+        
     return redirect('/payment_method')

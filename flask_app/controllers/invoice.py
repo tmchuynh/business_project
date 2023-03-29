@@ -52,6 +52,7 @@ def show_invoice():
     
     invoice = Invoice.get_invoice_by_id(this_id)
     
+    # Creating a relationship between the invoice and the product.
     for item in session['buying']:
         invoice_product_relationship = {
             'invoice_id': invoice.id,
@@ -60,4 +61,5 @@ def show_invoice():
             'product_id': item
         }
         Invoice.create_invoice_product_relationship(invoice_product_relationship)
+        
     return render_template('checkout_page.html', list_of_products=list_of_products, total_price=total_price)

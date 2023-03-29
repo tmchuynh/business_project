@@ -38,6 +38,13 @@ class Invoice:
         
     @classmethod
     def get_invoice_by_id(cls, data):
+        """
+        It returns an invoice object based on the id passed in.
+        
+        :param cls: the class itself
+        :param data: a dictionary of the data you want to pass to the query
+        :return: A list of dictionaries.
+        """
         query = "SELECT * FROM invoices WHERE id = %(id)s"
         results = connectToMySQL(DATABASE).query_db(query, data)
         if len(results) > 0:
@@ -85,6 +92,12 @@ class Invoice:
     
     @classmethod
     def get_current_products(cls):
+        """
+        It returns a list of all the invoices that are currently active
+        
+        :param cls: the class name
+        :return: A list of dictionaries.
+        """
         query = """SELECT product_invoices.*, products.*, product_teams.*, invoices.*
         FROM products
         LEFT JOIN product_invoices ON product_invoices.product_id = products.id
@@ -118,6 +131,13 @@ class Invoice:
     
     @classmethod
     def create_invoice_product_relationship(cls, data):
+        """
+        This function creates a relationship between an invoice and a product
+        
+        :param cls: the class name
+        :param data: {
+        :return: The results of the query.
+        """
         query = "INSERT INTO product_invoices (invoice_id, date_due, clients_email, product_id) VALUES (%(invoice_id)s, %(date_due)s, %(clients_email)s, %(product_id)s)"
         results = connectToMySQL(DATABASE).query_db(query, data)
         return results

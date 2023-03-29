@@ -258,6 +258,12 @@ class Client:
     
     @staticmethod
     def client_reg_validate_client(data):
+        """
+        This function validates the data that the user inputs into the registration form
+        
+        :param data: a dictionary containing the following keys:
+        :return: A boolean value
+        """
         regex = re.compile('[@_!#$%^&*()<>?/\|}{~:]')
         
         is_valid = True

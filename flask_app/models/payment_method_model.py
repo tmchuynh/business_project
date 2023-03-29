@@ -15,6 +15,13 @@ class Payment_Method:
         
     @classmethod
     def create_payment_method(cls, data):
+        """
+        This function takes in a dictionary of data and inserts it into the database
+        
+        :param cls: the class name
+        :param data: a dictionary of the data we want to insert into the database
+        :return: The results of the query.
+        """
         # need to fix the query to insert payment method
         query = "INSERT INTO payment_methods (card_number, expiration_date, CVC, clients_id, clients_email) VALUES (%(card_number)s, %(expiration_date)s, %(CVC)s, %(clients_id)s, %(clients_email)s)"
         results = connectToMySQL(DATABASE).query_db(query, data)

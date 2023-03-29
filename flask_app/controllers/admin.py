@@ -72,6 +72,14 @@ def edit_employee(employee_id):
 
 @app.route('/admin/assign_product_team/<int:product_id>/<int:invoice_id>', methods=['POST'])
 def assign_product_team(product_id, invoice_id):
+    """
+    This function takes in a product_id and an invoice_id, and then creates a product_team record in the
+    database
+    
+    :param product_id: the id of the product that is being assigned to the team
+    :param invoice_id: the invoice id of the invoice that the product is being added to
+    :return: the redirect to the admin page.
+    """
     print(invoice_id)
     this_employee = {
         'employee_id': request.form['employee_id']

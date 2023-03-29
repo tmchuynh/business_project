@@ -38,13 +38,16 @@ Describe your project
 
 ## :sparkles: Features ##
 
-:heavy_check_mark: Feature 1; Admin access to add employees and products to the database
-:heavy_check_mark: Feature 2; Employee access to add clients to the database and view their clients
-<!-- :heavy_check_mark: Feature 3; Client access to access and purchase products
-:heavy_check_mark: Feature 4; Client access to view and manage invoice transactions
-:heavy_check_mark: Feature 5; Admin access to assign employees to work on projects for clients
-:heavy_check_mark: Feature 6; Employee access to view in progress projects to send to clients
-:heavy_check_mark: Feature 7; Employee access to view their clients' invoice transactions -->
+:heavy_check_mark: Feature 1; Admin access to add employees and products to the database, as well as the ability to create product teams for on-going projects
+
+:heavy_check_mark: Feature 2; Employee access to add clients to the database and contact their clients
+
+:heavy_check_mark: Feature 3; Client access to access and purchase products
+
+:heavy_check_mark: Feature 4; Employee access to view their clients' invoice transactions and update project status
+
+<!-- :heavy_check_mark: Feature 4; Client access to view and manage invoice transactions
+:heavy_check_mark: Feature 6; Employee access to view in progress projects to send to clients -->
 
 
 Made with :heart: by <a href="https://github.com/tmchuynh" target="_blank">Tina Huynh</a>

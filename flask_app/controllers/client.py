@@ -82,6 +82,12 @@ def check_for_client_in_database():
 
 @app.route('/clients/update_password_form/<int:id>')
 def update_password_form(id):
+    """
+    Client is required to update password if their password is still 'password123456' on their first login.
+    
+    :param id: the id of the client to be updated
+    :return: The client_update_password.html page is being returned.
+    """
     this_client = {
         'client_id': id
     }
@@ -92,6 +98,11 @@ def update_password_form(id):
 
 @app.route('/client/update/<int:id>', methods=['POST'])
 def update_password(id):
+    """
+    This function updates the password of a client
+    
+    :param id: the id of the client whose password we want to update
+    """
     if not Client.validate_client_password_update(request.form):
         return redirect(f'/clients/update_password_form/{id}')
     
