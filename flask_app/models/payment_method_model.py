@@ -50,5 +50,9 @@ class Payment_Method:
         if not data['CVC'].isdigit():
             flash("Invalid CVC", "payment_validation")
             is_valid = False
+            if len(data['CVC']) != 3:
+                flash("Invalid CVC length", "payment_validation")
+                is_valid = False
+                
             
         return is_valid
