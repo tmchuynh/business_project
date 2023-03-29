@@ -2,6 +2,9 @@ from flask_app.config.mysqlconnection import connectToMySQL
 from flask_app import DATABASE
 from flask import flash
 
+
+import re
+
 class Billing_Address:
     def __init__(self, data):
         self.id = data['id']
