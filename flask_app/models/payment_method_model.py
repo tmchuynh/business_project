@@ -2,6 +2,8 @@ from flask_app.config.mysqlconnection import connectToMySQL
 from flask_app import DATABASE
 from flask import flash
 
+from datetime import date
+
 import re
 
 class Payment_Method:
@@ -46,6 +48,10 @@ class Payment_Method:
         if (re.match(pattern, data['card_number'])):
             flash("Credit card number is invalid", "payment_validation")
             is_valid = False
+            
+        if not data['expiration_date'] > date.today():
+            is_valid = False
+            flash("Expiration date is invalid", "payment_validation")
             
         if not data['CVC'].isdigit():
             flash("Invalid CVC", "payment_validation")
