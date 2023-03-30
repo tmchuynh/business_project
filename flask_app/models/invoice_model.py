@@ -153,7 +153,7 @@ class Invoice:
         """
         query = "UPDATE invoices SET amount = %(amount)s, date_due = %(date_due)s, date_paid = %(date_paid)s, proj_status = %(proj_status)s WHERE id = %(invoice_id)s"
         results = connectToMySQL(DATABASE).query_db(query, data)
-        if len(results) > 0:
+        if results:
             return Invoice(results[0])
         else:
             return None

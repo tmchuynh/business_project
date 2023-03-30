@@ -186,7 +186,7 @@ class Client:
         :param data: a dictionary of the data we want to insert into the database
         :return: The id of the client that was just created.
         """
-        query = "INSERT INTO clients (first_name, last_name, email) VALUES (%(first_name)s, %(last_name)s, %(email)s)"
+        query = "INSERT INTO clients (first_name, last_name, email, password) VALUES (%(first_name)s, %(last_name)s, %(email)s, %(password)s)"
         results = connectToMySQL(DATABASE).query_db(query, data)
         return results
     
