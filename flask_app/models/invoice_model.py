@@ -13,7 +13,6 @@ class Invoice:
         self.date_due = data['date_due']
         self.date_paid = data['date_paid']
         self.clients_email = data['clients_email']
-        self.proj_status = data['proj_status']
         self.product_team = None
         self.products = None
         
@@ -111,7 +110,26 @@ class Invoice:
                 # print(result)
                 invoices.append(result)
             return invoices
-        return []       
+        return []
+    
+    
+    @classmethod
+    def get_current_product_by_client(cls, data):
+        query = """SELECT product_invoices.*, products.*, product_teams.*, invoices.*
+        FROM products
+        LEFT JOIN product_invoices ON product_invoices.product_id = products.id
+        LEFT JOIN product_teams ON product_invoices.product_id = product_teams.product_id
+        LEFT JOIN invoices ON invoices.id = product_invoices.invoice_id where product_invoices.clients_email = %(client_email)s;
+        """       
+        
+        results = connectToMySQL(DATABASE).query_db(query, data)
+        
+        if results:
+            invoices = []
+            for result in results:
+                invoices.append(result)
+            return invoices
+        return []
     
         
     @classmethod
@@ -123,7 +141,7 @@ class Invoice:
         :param data: a dictionary of the data to be inserted into the database
         :return: The results of the query.
         """
-        query = "INSERT INTO invoices (amount, tax, date_due, date_paid, clients_email, proj_status) VALUES (%(amount)s, %(tax)s, %(date_due)s, %(date_paid)s, %(clients_email)s, 'unassigned')"
+        query = "INSERT INTO invoices (amount, tax, date_due, date_paid, clients_email) VALUES (%(amount)s, %(tax)s, %(date_due)s, %(date_paid)s, %(clients_email)s)"
         results = connectToMySQL(DATABASE).query_db(query, data)
         return results
         
@@ -151,12 +169,9 @@ class Invoice:
         :param data: a dictionary of the data to be updated
         :return: The results of the query.
         """
-        query = "UPDATE invoices SET amount = %(amount)s, date_due = %(date_due)s, date_paid = %(date_paid)s, proj_status = %(proj_status)s WHERE id = %(invoice_id)s"
+        query = "UPDATE invoices SET amount = %(amount)s, WHERE id = %(invoice_id)s"
         results = connectToMySQL(DATABASE).query_db(query, data)
-        if results:
-            return Invoice(results[0])
-        else:
-            return None
+        return results
     
     
     @classmethod

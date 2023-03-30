@@ -123,7 +123,7 @@ def add_product():
         return redirect('/admin')
     
     new_product = {
-        'name': request.form['name'].capitalize(),
+        'name': request.form['name'].title(),
         'category': request.form['category'].upper(),
         'price': request.form['price']
     }
@@ -144,7 +144,7 @@ def edit_product(product_id):
         return redirect('/admin')
     this_product = {
         'product_id': product_id,
-        'name': request.form['name'].capitalize(),
+        'name': request.form['name'].title(),
         'price': request.form['price'],
         'discount': request.form['discount'],
         'category': request.form['category'].upper()

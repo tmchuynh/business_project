@@ -23,11 +23,8 @@ def display_client_products(id):
         'client_email': current_client.email
     }
     print("current client ", current_client)
-    list_of_invoices = Client.get_invoices_by_client(this_client)
-    print("list of products ", list_of_invoices.invoices)
-    for invoices in list_of_invoices.invoices:
-        print("status", invoices.proj_status)
-    return render_template('client_products.html', list_of_invoices=list_of_invoices.invoices, current_client=current_client)
+    list_of_invoices = Invoice.get_current_product_by_client(this_client)
+    return render_template('client_products.html', list_of_invoices=list_of_invoices, current_client=current_client)
 
 
 @app.route('/client/update_status/<int:invoice_id>', methods=['POST'])
@@ -42,9 +39,6 @@ def update_product_status(invoice_id):
     print(request.form)
     this_product = {
         'amount': request.form['amount'],
-        'proj_status': request.form['proj_status'],
-        'date_due': request.form['date_due'],
-        'date_paid': request.form['date_paid'],
         'invoice_id': invoice_id
     }
     Invoice.update_invoice(this_product)

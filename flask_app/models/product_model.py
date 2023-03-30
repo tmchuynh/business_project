@@ -11,6 +11,7 @@ class Product:
         self.price = data['price']
         self.discount = data['discount']
         self.category = data['category']
+        self.status = data['status']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
         self.products = None
@@ -92,7 +93,7 @@ class Product:
         :param data: a dictionary of the data we want to insert into the database
         :return: The id of the product that was just created.
         """
-        query = "INSERT INTO products (name, price, category) VALUES (%(name)s, %(price)s, %(category)s)"
+        query = "INSERT INTO products (name, price, category, status) VALUES (%(name)s, %(price)s, %(category)s, 'unassigned')"
         results = connectToMySQL(DATABASE).query_db(query, data)
         return results
     
@@ -106,7 +107,7 @@ class Product:
         :param data: a dictionary of the data we want to update in the database
         :return: The results of the query.
         """
-        query = "UPDATE products SET price = %(price)s, discount = %(discount)s WHERE id = %(product_id)s"
+        query = "UPDATE products SET price = %(price)s, status = %(status)s, discount = %(discount)s WHERE id = %(product_id)s"
         results = connectToMySQL(DATABASE).query_db(query, data)
         return results
     

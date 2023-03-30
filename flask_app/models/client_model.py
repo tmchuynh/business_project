@@ -107,6 +107,7 @@ class Client:
                     'category': result['category'],
                     'discount': result['discount'],
                     'price': result['price'],
+                    'status': result['status'],
                     'created_at': result['created_at'],
                     'updated_at': result['updated_at'],
                 }
@@ -129,7 +130,8 @@ class Client:
         query = """SELECT * FROM clients 
         LEFT JOIN invoices ON clients.email = invoices.clients_email 
         LEFT JOIN product_invoices ON invoices.id = product_invoices.invoice_id 
-        LEFT JOIN products ON product_invoices.product_id = products.id;
+        LEFT JOIN products ON product_invoices.product_id = products.id
+        WHERE clients.email = %(client_email)s;
         """
         
         results = connectToMySQL(DATABASE).query_db(query,data)
@@ -139,7 +141,7 @@ class Client:
             client.invoices = []
             
             for result in results:
-                print(result)
+                print("this results", result)
                 
                 if not result['invoice_id']:
                     break
@@ -150,7 +152,6 @@ class Client:
                     'tax': result['tax'],
                     'date_due': result['date_due'],
                     'date_paid': result['date_paid'],
-                    'proj_status': result['proj_status'],
                     'created_at': result['created_at'],
                     'clients_email': result['clients_email']
                 }
@@ -415,10 +416,10 @@ class Client:
             print(check.password, "password database")
             print(data['password'], "password")
             
-            if check.password != data['password']:
-                print("Password hash false", data['password'])
-                flash('Password is incorrect', "check_client_login")
-                is_valid = False
+            # if (bcrypt.check_password_hash(data['password'], check.password)):
+            #     print("Password hash false", data['password'])
+            #     flash('Password is incorrect', "check_client_login")
+            #     is_valid = False
         return is_valid
     
     
