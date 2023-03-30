@@ -13,8 +13,7 @@ class Invoice:
         self.date_due = data['date_due']
         self.date_paid = data['date_paid']
         self.clients_email = data['clients_email']
-        self.created_at = data['created_at']
-        self.updated_at = data['updated_at']
+        self.proj_status = data['proj_status']
         self.product_team = None
         self.products = None
         
@@ -124,7 +123,7 @@ class Invoice:
         :param data: a dictionary of the data to be inserted into the database
         :return: The results of the query.
         """
-        query = "INSERT INTO invoices (amount, tax, date_due, date_paid, clients_email) VALUES (%(amount)s, %(tax)s, %(date_due)s, %(date_paid)s, %(clients_email)s)"
+        query = "INSERT INTO invoices (amount, tax, date_due, date_paid, clients_email, proj_status) VALUES (%(amount)s, %(tax)s, %(date_due)s, %(date_paid)s, %(clients_email)s, 'unassigned')"
         results = connectToMySQL(DATABASE).query_db(query, data)
         return results
         
@@ -152,7 +151,7 @@ class Invoice:
         :param data: a dictionary of the data to be updated
         :return: The results of the query.
         """
-        query = "UPDATE invoices SET amount = %(amount)s, tax = %(tax)s, date_due = %(date_due)s, date_paid = %(date_paid)s, WHERE id = %(invoice_id)s"
+        query = "UPDATE invoices SET amount = %(amount)s, date_due = %(date_due)s, date_paid = %(date_paid)s, proj_status = %(proj_status)s WHERE id = %(invoice_id)s"
         results = connectToMySQL(DATABASE).query_db(query, data)
         if len(results) > 0:
             return Invoice(results[0])

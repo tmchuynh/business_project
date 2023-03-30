@@ -157,7 +157,7 @@ def register_client():
         # store the new client in the session
         session['client_first_name'] = request.form['first_name'].capitalize()
         session['client_email'] = new_client['email']
-        session['client_id'] = new_client['id']
+        session['client_id'] = c.id
         print("logged in client ", session['client_email'])
         
         # create the relationship between the client and the employee

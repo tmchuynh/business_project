@@ -8,6 +8,7 @@ bcrypt = Bcrypt(app)
 
 from flask_app.models import product_model
 from flask_app.models import employee_model
+from flask_app.models import invoice_model
 
 import re
 
@@ -21,6 +22,7 @@ class Client:
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
         self.products = None
+        self.invoices = None
         
         
     @classmethod
@@ -105,12 +107,56 @@ class Client:
                     'category': result['category'],
                     'discount': result['discount'],
                     'price': result['price'],
-                    'status': result['status'],
                     'created_at': result['created_at'],
-                    'updated_at': result['updated_at']
+                    'updated_at': result['updated_at'],
                 }
                 client.products.append(product_model.Product(product))
                 print(product)
+            return client
+        return []
+    
+    
+    @classmethod
+    def get_invoices_by_client(cls, data):
+        """
+        We're querying the database for all the clients, their invoices, and the products associated with
+        those invoices
+        
+        :param cls: the class that we're calling the method on
+        :param data: a dictionary of the data you want to pass to the query
+        :return: A list of dictionaries
+        """
+        query = """SELECT * FROM clients 
+        LEFT JOIN invoices ON clients.email = invoices.clients_email 
+        LEFT JOIN product_invoices ON invoices.id = product_invoices.invoice_id 
+        LEFT JOIN products ON product_invoices.product_id = products.id;
+        """
+        
+        results = connectToMySQL(DATABASE).query_db(query,data)
+        
+        if results:
+            client = cls(results[0])
+            client.invoices = []
+            
+            for result in results:
+                print(result)
+                
+                if not result['invoice_id']:
+                    break
+
+                invoice = {
+                    'id': result['invoice_id'],
+                    'amount': result['amount'],
+                    'tax': result['tax'],
+                    'date_due': result['date_due'],
+                    'date_paid': result['date_paid'],
+                    'proj_status': result['proj_status'],
+                    'created_at': result['created_at'],
+                    'clients_email': result['clients_email']
+                }
+
+                client.invoices.append(invoice_model.Invoice(invoice))
+                print(invoice)
             return client
         return []
             

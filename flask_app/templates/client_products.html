@@ -14,27 +14,65 @@
             <div class="d-flex">
                 <a href="/employee/get_clients" class="btn btn-secondary">Return to Employee Home</a>
             </div>
+            {% for message in get_flashed_messages(category_filter = ['product_updated']) %}
+                <div class="alert alert-danger">
+                    {{ message }}
+                </div>
+            {% endfor %}
             <h1>{{current_client.first_name}}'s Products</h1>
             <table>
                 <thead>
-                    <th>Product</th>
-                    <th>Category</th>
+                    <th>Invoice ID</th>
+                    <th>Amount</th>
                     <th>Status</th>
-                    <th>Price</th>
                 </thead>
                 <tbody>
                     <!-- This is a for loop that is iterating through the list of products and displaying the name, category,
                     status, and price of each product. -->
-                    {% for product in list_of_products: %}
+                    {% for invoice in list_of_invoices: %}
                     <tr>
-                        <td>{{product.name}}</td>
-                        <td>{{product.category}}</td>
-                        <td>{{product.status}}</td>
-                        <td>{{product.price}}</td>
+                        <td>{{invoice.id}}</td>
+                        <td>{{invoice.amount}}</td>
+                        <td>{{invoice.proj_status}}</td>
                         <td class="d-flex gap-2">
-                            <a href='' class='btn btn-primary'>Update Status</a>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#INVOICE{{invoice.id}}000">
+                                Update
+                            </button>
                         </td>
                     </tr>
+
+                    <div class="modal fade" id="INVOICE{{invoice.id}}000" tabindex="-1" aria-labelledby="updateInvoiceModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered">
+                            <div class="modal-content">
+                                
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="updateInvoiceModalLabel">Update Invoice #{{invoice.id}} Details</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                
+                                <div class="modal-body d-flex flex-column">
+                                    <form action="/client/update_status/{{invoice.id}}" method="POST" class="form-horizontal">
+                                        <label for="id">Invoice ID</label>
+                                        <input type="text" name="id" value="{{invoice.id}}" disabled>
+                                        
+                                        <label for="amount">Amount</label>
+                                        <input type="text" name="amount" value="{{invoice.amount}}">
+                                        
+                                        <label for="proj_status">Project Status</label>
+                                        <input type="text" name="proj_status" value="{{invoice.proj_status}}">
+
+                                        <label for="date_due">Due Date</label>
+                                        <input type="date" name="date_due" value="{{invoice.date_due}}">
+
+                                        <label for="date_paid">Date Paid</label>
+                                        <input type="date" name="date_paid" value="{{invoice.date_paid}}">
+                                        
+                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     {% endfor %}
                 </tbody>
             </table>
