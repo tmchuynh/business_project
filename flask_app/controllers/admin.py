@@ -15,10 +15,11 @@ def admin():
     :return: A list of all employees
     """
     list_of_employees = Employee.get_all_employees()
+    list_of_active_employees = Employee.get_active_employees()
     list_of_products = Product.get_all_products()
     list_of_clients = Client.get_all_clients()
     list_of_current_products = Invoice.get_current_products()
-    return render_template('admin.html', list_of_employees=list_of_employees, list_of_products=list_of_products, list_of_clients=list_of_clients, list_of_current_products=list_of_current_products)
+    return render_template('admin.html', list_of_employees=list_of_employees, list_of_active_employees=list_of_active_employees, list_of_products=list_of_products, list_of_clients=list_of_clients, list_of_current_products=list_of_current_products)
 
 
 @app.route('/admin/add_employee', methods=['POST'])

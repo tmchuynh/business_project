@@ -39,6 +39,24 @@ class Employee:
     
     
     @classmethod
+    def get_active_employees(cls):
+        """
+        The above function returns a list of all employees that have been updated.
+        
+        :param cls: the class name
+        :return: A list of all the employees that have been updated.
+        """
+        query = "SELECT * FROM employees WHERE temp_password = 'employee updated';"
+        results = connectToMySQL(DATABASE).query_db(query)
+        list_of_employees = []
+        if not results:
+            return list_of_employees
+        for result in results:
+            list_of_employees.append(cls(result))
+        return list_of_employees
+    
+    
+    @classmethod
     def get_employee_by_id(cls, data):
         """
         It takes in a dictionary of data, and returns an Employee object if the employee exists, or None if

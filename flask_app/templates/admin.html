@@ -145,7 +145,7 @@
                             <h5>Choose an employee for this project</h5>
                             <form action='/admin/assign_product_team/{{current_product.id}}/{{current_product.invoice_id}}'  method="post" class="form-horizontal">
                                 <select class="form-select" name="employee_id" aria-label="Default select example">
-                                {% for employee in list_of_employees %}
+                                {% for employee in list_of_active_employees %}
                                     <option value="{{employee.id}}">
                                         {{employee.first_name}} {{employee.last_name}}
                                     </option>
