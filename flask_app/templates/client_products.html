@@ -10,9 +10,9 @@
         <link rel="stylesheet" href={{ url_for( 'static', filename='index.css' ) }}>
     </head>
     <body>
-        <div class="container p-5">
+        <div class="container m-auto p-5">
             <div class="d-flex">
-                <a href="/employee/get_clients" class="btn btn-secondary">Return to Employee Home</a>
+                <a href="/employee/get_clients" class="nes-btn">Return to Employee Home</a>
             </div>
             {% for message in get_flashed_messages(category_filter = ['product_updated']) %}
                 <div class="alert alert-danger">

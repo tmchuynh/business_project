@@ -12,9 +12,9 @@
 </head>
 
 <body>
-    <div class="container p-5">
+    <div class="container m-auto p-5">
         <div class="d-flex">
-            <a href="/logout" class="btn btn-secondary">Log Out from Admin</a>
+            <a href="/logout" class="nes-btn">Log Out from Admin</a>
         </div>
         <form action="/admin/add_employee" method="POST" class="form-horizontal">
             <!-- This is a Jinja2 template. It is a for loop that iterates through the list of messages that are
@@ -64,6 +64,7 @@
                             Edit
                         </button>
                         <a href='/admin/delete_employee/{{employee.id}}' class='btn btn-danger'>Delete</a>
+                        <a href="mailto:{{employee.email}}" class="btn btn-success">Contact</a>
                     </td>
                 </tr>
 
@@ -262,7 +263,6 @@
                 <th>Last Name</th>
                 <th>Email</th>
                 <th>Invoice</th>
-                <th>Details</th>
             </thead>
             <tbody>
                 {% for client in list_of_clients: %}

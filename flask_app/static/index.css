@@ -8,6 +8,24 @@
     margin-bottom: 10px;
 }
 
+.main-body {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.main-body a {
+    width: 10rem;
+}
+
+a,
+button {
+    justify-content: space-between;
+    margin: 1rem;
+}
+
 form {
     display: flex;
     flex-direction: column;
@@ -17,8 +35,21 @@ form p {
     color: red;
 }
 
+table {
+    width: 77rem;
+    justify-content: space-around;
+}
+
+td {
+    width: fit-content;
+}
+
 tr {
-    max-height: 5rem;
+    max-height: 7rem;
+}
+
+td:last-child {
+    float:right;
 }
 
 tr a {
@@ -26,16 +57,14 @@ tr a {
 }
 
 
-a {
+a,
+button {
     list-style: none;
     text-decoration: none;
     color: black;
 }
 
-a:hover {
-    text-decoration: underline;
-    color: rgb(34, 130, 219);
-}
+
 
 .btn {
     display: inline-block;

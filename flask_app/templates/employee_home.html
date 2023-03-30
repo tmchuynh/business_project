@@ -10,10 +10,10 @@
         <link rel="stylesheet" href={{ url_for( 'static', filename='index.css' ) }}>
     </head>
     <body>
-        <div class="container p-5 d-flex justify-content-around align-content-center">
+        <div class="container m-auto p-5 d-flex justify-content-around align-content-center">
             <div class="container">
                 <div class="d-flex">
-                    <a href="/employee" class="btn btn-secondary">Logout</a>
+                    <a href="/employee" class="nes-btn">Logout</a>
                 </div>
                 
                 <h1>Welcome, {{session['first_name']}}</h1>
@@ -68,7 +68,7 @@
                                 <a href="/client/{{client.id}}" class="btn btn-primary">
                                     Details
                                 </a>
-                                <a href="/client/contact/{{client.id}}" class="btn btn-success disabled">Contact</a>
+                                <a href="mailto:{{client.email}}" class="btn btn-success">Contact</a>
                             </td>
                         </tr>
                         {% endfor %}
