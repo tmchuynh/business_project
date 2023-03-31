@@ -152,7 +152,7 @@ class Client:
                     'amount': result['amount'],
                     'tax': result['tax'],
                     'date_due': result['date_due'],
-                    'proj_status': result['proj_status'],
+                    'status': result['status'],
                     'date_paid': result['date_paid'],
                     'created_at': result['created_at'],
                     'clients_email': result['clients_email']

@@ -1,10 +1,5 @@
 from flask_app.config.mysqlconnection import connectToMySQL
 from flask_app import DATABASE
-from flask import flash
-
-from flask_app.models import employee_model
-from flask_app.models import client_model
-from flask_app.models import product_model
 
 class Invoice:
     def __init__(self, data):
@@ -13,7 +8,7 @@ class Invoice:
         self.date_due = data['date_due']
         self.date_paid = data['date_paid']
         self.clients_email = data['clients_email']
-        self.proj_status = data['proj_status']
+        self.status = data['status']
         self.product_team = None
         self.products = None
         
@@ -116,6 +111,12 @@ class Invoice:
     
     @classmethod
     def get_current_product_by_client(cls, data):
+        """
+        This function is used to get all the products that a client has purchased
+        
+        :param cls: the class name
+        :param data: a dictionary of the data you want to pass to the query
+        """
         query = """SELECT product_invoices.*, products.*, product_teams.*, invoices.*
         FROM products
         LEFT JOIN product_invoices ON product_invoices.product_id = products.id

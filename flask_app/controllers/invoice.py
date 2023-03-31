@@ -1,9 +1,8 @@
-from flask import Flask, render_template, request, redirect, session
+from flask import Flask, render_template, session
 from flask_app import app
 from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
 from flask_app.models.invoice_model import Invoice
-from flask_app.models.client_model import Client
 from flask_app.models.product_model import Product
 
 from datetime import date
