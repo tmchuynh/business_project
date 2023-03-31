@@ -90,3 +90,11 @@ button {
     text-decoration: none;
     border: none;
 }
+
+
+.btn-danger:hover {
+    color: black;
+    background-color: rgb(220,53,69);
+    text-decoration: none;
+    border: none;
+}

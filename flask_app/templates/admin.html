@@ -262,7 +262,6 @@
                 <th>First Name</th>
                 <th>Last Name</th>
                 <th>Email</th>
-                <th>Invoice</th>
             </thead>
             <tbody>
                 {% for client in list_of_clients: %}
@@ -270,9 +269,8 @@
                     <td>{{client.first_name}}</td>
                     <td>{{client.last_name}}</td>
                     <td>{{client.email}}</td>
-                    <td>0000</td>
                     <td class="d-flex gap-2">
-                        <a href='' class='btn btn-primary disabled'>Product Details</a>
+                        <a href='mailto:{{client.email}}' class='btn btn-success'>Contact</a>
                     </td>
                 </tr>
                 {% endfor %}
