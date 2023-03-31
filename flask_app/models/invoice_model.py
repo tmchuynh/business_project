@@ -13,6 +13,7 @@ class Invoice:
         self.date_due = data['date_due']
         self.date_paid = data['date_paid']
         self.clients_email = data['clients_email']
+        self.proj_status = data['proj_status']
         self.product_team = None
         self.products = None
         
@@ -127,6 +128,7 @@ class Invoice:
         if results:
             invoices = []
             for result in results:
+                print("result status", result['status'])
                 invoices.append(result)
             return invoices
         return []
@@ -169,7 +171,7 @@ class Invoice:
         :param data: a dictionary of the data to be updated
         :return: The results of the query.
         """
-        query = "UPDATE invoices SET amount = %(amount)s, WHERE id = %(invoice_id)s"
+        query = "UPDATE invoices SET amount = %(amount)s WHERE id = %(invoice_id)s"
         results = connectToMySQL(DATABASE).query_db(query, data)
         return results
     

@@ -35,7 +35,7 @@
                         <td>{{invoice.invoice_id}}</td>
                         <td>{{invoice.name}}</td>
                         <td>{{invoice.price}}</td>
-                        <td>{{invoice.proj_status}}</td>
+                        <td>{{invoice.status}}</td>
                         <td class="d-flex gap-2">
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#INVOICE{{invoice.id}}000">
                                 Update
@@ -63,8 +63,8 @@
                                         <label for="amount">Amount</label>
                                         <input type="text" name="amount" value="{{invoice.amount}}">
                                         
-                                        <label for="proj_status">Project Status</label>
-                                        <input type="text" name="proj_status" value="{{invoice.proj_status}}">
+                                        <label for="status">Project Status</label>
+                                        <input type="text" name="status" value="{{invoice.status}}">
                                         
                                         <button type="submit" class="btn btn-primary">Save changes</button>
                                     </form>

@@ -4,6 +4,7 @@ from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
 from flask_app.models.invoice_model import Invoice
 from flask_app.models.client_model import Client
+from flask_app.models.product_model import Product
 
 
 @app.route('/client/<int:id>')
@@ -24,6 +25,10 @@ def display_client_products(id):
     }
     print("current client ", current_client)
     list_of_invoices = Invoice.get_current_product_by_client(this_client)
+    for invoice in list_of_invoices:
+        print("status ", invoice['status'])
+    
+    
     return render_template('client_products.html', list_of_invoices=list_of_invoices, current_client=current_client)
 
 
@@ -37,11 +42,16 @@ def update_product_status(invoice_id):
     :return: the redirect to the client page.
     """
     print(request.form)
-    this_product = {
+    this_invoice = {
         'amount': request.form['amount'],
         'invoice_id': invoice_id
     }
-    Invoice.update_invoice(this_product)
+    Invoice.update_invoice(this_invoice)
+    
+    this_product = {
+        'status': request.form['status']
+    }
+    Product.update_product_status(this_product)
     flash('Product updated', 'product_updated')
     return redirect(f"/client/{session['client_id']}")
     

@@ -113,6 +113,20 @@ class Product:
     
     
     @classmethod
+    def update_product_status(cls, data):
+        """
+        This function updates the status of a product in the database
+        
+        :param cls: This is the class name
+        :param data: a dictionary of the data we want to update in the database
+        :return: The results of the query.
+        """
+        query = "UPDATE products SET status = %(status)s WHERE id = %(product_id)s"
+        results = connectToMySQL(DATABASE).query_db(query, data)
+        return results
+    
+    
+    @classmethod
     def delete_product(cls, data):
         """
         This function deletes a product from the database

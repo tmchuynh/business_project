@@ -145,12 +145,14 @@ class Client:
                 
                 if not result['invoice_id']:
                     break
+                
 
                 invoice = {
                     'id': result['invoice_id'],
                     'amount': result['amount'],
                     'tax': result['tax'],
                     'date_due': result['date_due'],
+                    'proj_status': result['proj_status'],
                     'date_paid': result['date_paid'],
                     'created_at': result['created_at'],
                     'clients_email': result['clients_email']
