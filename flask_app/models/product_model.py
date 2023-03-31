@@ -107,7 +107,7 @@ class Product:
         :param data: a dictionary of the data we want to update in the database
         :return: The results of the query.
         """
-        query = "UPDATE products SET price = %(price)s, status = %(status)s, discount = %(discount)s WHERE id = %(product_id)s"
+        query = "UPDATE products SET name = %(name)s, category = %(category)s, price = %(price)s, discount = %(discount)s WHERE id = %(product_id)s"
         results = connectToMySQL(DATABASE).query_db(query, data)
         return results
     
